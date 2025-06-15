@@ -1,43 +1,43 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-    // {
-    //     path: "",
-    //     component: HomeComponent,
-    //     title: "Home"
-    // },
-    // {
-    //     path: "platforms",
-    //     component: PlatformsComponent,
-    //     title: "Piattaforme",
-    // },
-    // {
-    //     path: "creators",
-    //     component: CreatorsComponent,
-    //     title: "Creatori",
-    // },
-    // {
-    //     path: "developers",
-    //     component: DevelopersComponent,
-    //     title: "Sviluppatori",
-    // },
-    // {
-    //     path: "new-release",
-    //     component: NewReleaseComponent,
-    //     title: "Nuove Uscite",
-    // },
-    // {
-    //     path: "top-games",
-    //     component: TopGamesComponent,
-    //     title: "Top Giochi",
-    // },
-    // {
-    //     path: "404",
-    //     component: Error404Component,
-    //     title: "Errore 404 Pagina non trovata"
-    // },
-    // {
-    //     path: "**",
-    //     redirectTo: "/404"
-    // },
+    {
+      path: "",
+      loadComponent: () => import('./pages/home.component'),
+      title: "Home - Games Library",
+    },
+    {
+      path: "platforms",
+      loadComponent: () => import('./pages/platforms.component'),
+      title: "Piattaforme - Games Library",
+    },
+    {
+      path: "creators",
+      loadComponent: () => import('./pages/creators.component'),
+      title: "Creatori - Games Library",
+    },
+    {
+      path: "developers",
+      loadComponent: () => import('./pages/developers.component'),
+      title: "Sviluppatori - Games Library",
+    },
+    {
+      path: "new-releases",
+      loadComponent: () => import('./pages/new-releases.component'),
+      title: "Nuove Uscite - Games Library",
+    },
+    {
+      path: "top-games",
+      loadComponent: () => import('./pages/top-games.component'),
+      title: "Top Giochi - Games Library",
+    },
+    {
+      path: "404",
+      loadComponent: () => import('./pages/error404.component'),
+      title: "Errore 404 Pagina non trovata"
+    },
+    {
+      path: "**",
+      redirectTo: "/404"
+    },
 ];

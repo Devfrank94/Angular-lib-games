@@ -6,8 +6,8 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: `
 
-<div class="flex justify-center m-5">
-  <div class="container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl h-fit">
+<div class="flex justify-center">
+  <div class="my-container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl h-fit">
   <h1>Ciao Come va</h1>
 
       <router-outlet />
@@ -16,7 +16,9 @@ import { RouterOutlet } from '@angular/router';
 </div>
 
   `,
-  styles: [],
+  styles: `
+
+  `,
 })
 export class AppComponent {
   title = 'Angular-lib-games';

@@ -1,4 +1,4 @@
-.test {
+.test1 {
   background-color: rgba(255, 0, 0, 0.604);
   border: 1px solid black;
 }
@@ -19,6 +19,10 @@
   padding-left: 1rem;
   margin-right: auto;
   margin-left: auto;
+
+  @media (min-width: 200px) {
+    width: 100%;
+  }
 
   @media (min-width: 576px) {
     max-width: 95%;
