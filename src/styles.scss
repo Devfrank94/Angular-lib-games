@@ -2,6 +2,8 @@
 @plugin 'daisyui';
 
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
+@import './app/colors.scss';
+@import './app/utilities.scss';
 
 
 * {
@@ -17,4 +19,3 @@
     height: 100vh;
     display: grid;
   }
-

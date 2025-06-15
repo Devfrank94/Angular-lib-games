@@ -7,9 +7,9 @@ import { RouterOutlet } from '@angular/router';
   template: `
 
 <div class="flex justify-center m-5">
-  <div class="container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl bg-red-500 h-fit">
+  <div class="container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl h-fit">
   <h1>Ciao Come va</h1>
-  
+
       <router-outlet />
 
   </div>
