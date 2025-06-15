@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@plugin 'daisyui';
 
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech&display=swap');
 @import './app/colors.scss';
@@ -11,11 +10,91 @@
     font-style: oblique;
   }
 
-  body{
-    color: #2c2c2c;
-    background-color: #f0f0f0;
-    background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(0, 0%, 87%, 0.4)'/><path d='M14.499 11.82L4.36 5.968l.002-11.706 10.14-5.855L24.638-5.74l-.001 11.707zm0 50.06L4.36 56.029l.002-11.706 10.14-5.855 10.137 5.852-.001 11.707zm14.498-25.117L18.858 30.91l.002-11.707L29 13.349l10.137 5.853-.001 11.706zm-29 0l-10.139-5.852.002-11.707L0 13.349l10.138 5.853-.002 11.706zm14.501-19.905L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'  stroke-linecap='square' stroke-width='1' stroke='hsla(259, 0%, 100%, 0.7)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(-116,-98.46)' fill='url(%23a)'/></svg>");
-    background-attachment: fixed;
-    height: 100vh;
-    display: grid;
-  }
+body{
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(0, 0%, 87%, 0.4)'/><path d='M14.499 11.82L4.36 5.968l.002-11.706 10.14-5.855L24.638-5.74l-.001 11.707zm0 50.06L4.36 56.029l.002-11.706 10.14-5.855 10.137 5.852-.001 11.707zm14.498-25.117L18.858 30.91l.002-11.707L29 13.349l10.137 5.853-.001 11.706zm-29 0l-10.139-5.852.002-11.707L0 13.349l10.138 5.853-.002 11.706zm14.501-19.905L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'  stroke-linecap='square' stroke-width='1' stroke='hsla(259, 0%, 100%, 0.7)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(-116,-98.46)' fill='url(%23a)'/></svg>");
+  background-attachment: fixed;
+  height: 100vh;
+  display: grid;
+}
+
+button, a {
+  cursor: pointer;
+}
+
+
+@plugin "daisyui" {
+  // themes: light --default, dark --prefersdark;
+  themes: ["light", "dark"];
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.002 247.839);
+  --color-base-200: oklch(96% 0.003 264.542);
+  --color-base-300: oklch(92% 0.006 264.531);
+  --color-base-content: oklch(21% 0.034 264.665);
+  --color-primary: oklch(64% 0.222 41.116);
+  --color-primary-content: oklch(98% 0.016 73.684);
+  --color-secondary: oklch(76% 0.188 70.08);
+  --color-secondary-content: oklch(97% 0.013 17.38);
+  --color-accent: oklch(64% 0.2 131.684);
+  --color-accent-content: oklch(98% 0.031 120.757);
+  --color-neutral: oklch(44% 0.03 256.802);
+  --color-neutral-content: oklch(98% 0.002 247.839);
+  --color-info: oklch(70% 0.022 261.325);
+  --color-info-content: oklch(13% 0.028 261.692);
+  --color-success: oklch(76% 0.233 130.85);
+  --color-success-content: oklch(27% 0.072 132.109);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(63% 0.237 25.331);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+};
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-200: oklch(23.26% 0.014 253.1);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+  --color-base-content: oklch(97.807% 0.029 256.847);
+  --color-primary: oklch(55% 0.163 48.998);
+  --color-primary-content: oklch(96% 0.018 272.314);
+  --color-secondary: oklch(0.968 0.211 102.2);
+  --color-secondary-content: oklch(44% 0.03 256.802);
+  --color-accent: oklch(64% 0.2 131.684);
+  --color-accent-content: oklch(98% 0.026 102.212);
+  --color-neutral: oklch(55% 0.027 264.364);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(0.927 0.005 231.3);
+  --color-info-content: oklch(0.196 0 0);
+  --color-success: oklch(72% 0.219 149.579);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(57% 0.245 27.325);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+};
+
+
