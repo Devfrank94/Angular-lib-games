@@ -1,25 +1,30 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { SwitchModeComponent } from "./components/switch-mode.component";
+import { FooterComponent } from "./components/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, SwitchModeComponent, FooterComponent],
   template: `
 
-<div class="flex justify-center">
-  <div class="my-container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl h-fit">
-  <h1>Ciao Come va</h1>
+    <div>
+      <div class="flex-center-center h-screen">
+        <div class="my-container p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl altezza-test">
+        <app-switch-mode />
+          <h1>Ciao Come va</h1>
 
-      <router-outlet />
+          <router-outlet />
 
-  </div>
-</div>
+        </div>
+      </div>
+      <app-footer />
+    </div>
 
   `,
-  styles: `
-
-  `,
+  styles: [],
 })
 export class AppComponent {
-  title = 'Angular-lib-games';
+  title = 'Angular-Games-Library';
+
 }
