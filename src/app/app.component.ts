@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SwitchModeComponent } from "./components/switch-mode.component";
+import { GoToTopComponent } from "./components/go-to-top.component";
 import { FooterComponent } from "./components/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SwitchModeComponent, FooterComponent],
+  imports: [RouterOutlet, SwitchModeComponent, GoToTopComponent, FooterComponent],
   template: `
 
     <div>
@@ -18,6 +19,7 @@ import { FooterComponent } from "./components/footer.component";
 
         </div>
       </div>
+      <app-go-to-top />
       <app-footer />
     </div>
 
