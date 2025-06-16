@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   template: `
     @if (isVisible()) {
       <button
-        class="btn btn-circle btn-primary fixed bottom-10 right-15 z-50 shadow-lg animate-bounce"
+        class="btn btn-circle btn-secondary fixed bottom-10 right-15 z-50 shadow-lg animate-bounce"
         (click)="scrollToTop()"
         aria-label="Torna in cima">
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
