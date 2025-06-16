@@ -1,0 +1,23 @@
+{
+  "companyLogo": "assets/logo-footer.png",
+  "companyName": "Angular Library Games",
+  "companyDescription": "La migliore libreria di giochi",
+  "socialLinks": [
+    {
+      "name": "linkedin",
+      "url": "https://www.linkedin.com/in/francesco-murro-dev/",
+      "img": "assets/linkedin.svg"
+    },
+    {
+      "name": "github",
+      "url": "https://github.com/Devfrank94?tab=repositories",
+      "img": "assets/github.svg"
+    },
+    {
+      "name": "gmail",
+      "url": "mailto:francescomurro94@gmail.com",
+      "img": "assets/gmail.svg"
+    }
+  ],
+  "copyright": "Copyright © 2025 - Tutti i diritti riservati by DevFrank94"
+}
