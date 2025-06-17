@@ -12,10 +12,11 @@ import { NavbarComponent } from "./components/navbar.component";
 
     <div>
       <div class="flex-center-center h-screen">
-        <div class="my-container bg-neutral/10 backdrop-blur-sm p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl altezza-test">
-        <h2 class="text-2xl font-bold text-center mb-4">Angular Library Games</h2>
+        <div class="my-container bg-neutral/10 backdrop-blur-sm p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl min-h-[90vh] max-h-[95vh] overflow-hidden">
+          <h2 class="text-2xl font-bold text-center mb-4">Angular Library Games</h2>
           <div class="flex gap-4 px-4 py-4">
-            <div class=" min-w-fit">
+            <div class="hidden sm:block min-w-fit">
+              <!-- Nav desktop -->
               <app-navbar />
             </div>
             <div class="w-full flex flex-col gap-4">
@@ -25,10 +26,12 @@ import { NavbarComponent } from "./components/navbar.component";
               <div class="p-4 w-full test3">
                 <router-outlet />
               </div>
+              <!-- Nav mobile -->
+              <div class="block sm:hidden">
+                <app-navbar />
+              </div>
             </div>
-
           </div>
-          
         </div>
       </div>
       <app-go-to-top />
