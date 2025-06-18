@@ -4,16 +4,17 @@ import { SwitchModeComponent } from "./components/switch-mode.component";
 import { GoToTopComponent } from "./components/go-to-top.component";
 import { FooterComponent } from "./components/footer.component";
 import { NavbarComponent } from "./components/navbar.component";
+import { TopbarComponent } from "./components/topbar.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SwitchModeComponent, GoToTopComponent, FooterComponent, NavbarComponent],
+  imports: [RouterOutlet, SwitchModeComponent, GoToTopComponent, FooterComponent, NavbarComponent, TopbarComponent],
   template: `
 
     <div>
-      <div class="flex-center-center h-screen">
-        <div class="my-container bg-neutral/10 backdrop-blur-sm p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl min-h-[90vh] max-h-[95vh] overflow-hidden">
-          <h2 class="text-2xl font-bold text-center mb-4">Angular Library Games</h2>
+      <app-topbar />
+      <div class="flex-center-center py-3 sm:py-1">
+        <div class="my-container bg-neutral/10 backdrop-blur-sm p-3 sm:m-4 sm:p-4 rounded-xl shadow-xl min-h-[86vh] max-h-[90vh]">
           <div class="flex gap-4 px-4 py-4">
             <div class="hidden sm:block min-w-fit">
               <!-- Nav desktop -->
