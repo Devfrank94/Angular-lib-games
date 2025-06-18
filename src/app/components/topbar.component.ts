@@ -10,7 +10,6 @@ import { Component } from '@angular/core';
         <img src="assets/logo-circle.png" alt="logo" class="w-8 h-8 sm:hidden" />
         <h2 class="hidden sm:block text-2xl font-semibold">Angular Library Games</h2>
       </div>
-
     </div>
   `,
   styles: ``
