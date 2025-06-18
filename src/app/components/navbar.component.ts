@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   template: `
 
   @if (navbarService.navbarConfig(); as navbarConfig)  {
-    <ul class="hidden sm:block menu menu-sm md:menu-md rounded-lg md:w-50 bg-base-300">
+    <ul class="hidden sm:block menu menu-sm md:menu-md rounded-lg shadow-xl md:w-50 bg-base-300">
       <li class="gap-4 md:my-2">
         @for  (item of navbarConfig; track item.route) {
         <a class="tooltip tooltip-bottom md:tooltip-right" [attr.data-tip]="capitalize(item.label)" [routerLink]="item.route" routerLinkActive="menu-active">

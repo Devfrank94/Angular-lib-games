@@ -43,7 +43,7 @@ export const routes: Routes = [
   },
   {
     path: "**",
-    loadComponent: () => import('./pages/error404.component'),
+    redirectTo: "404",
     title: "Errore 404 Pagina non trovata"
   }
 ];
