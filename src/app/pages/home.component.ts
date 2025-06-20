@@ -1,12 +1,26 @@
 import { Component } from '@angular/core';
+import { CardComponent } from "../components/card.component";
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [CardComponent],
   template: `
-    <p>
-      home works!
-    </p>
+  <div class="glass grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 px-2 sm:py-2 max-h-183 sm:max-h-200 overflow-y-auto rounded-xl shadow-xl">
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+    <app-card/>
+  </div>
+
   `,
   styles: ``
 })
