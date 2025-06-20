@@ -5,7 +5,7 @@ import { CardComponent } from "../components/card.component";
   selector: 'app-home',
   imports: [CardComponent],
   template: `
-  <div class="glass grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 px-2 sm:py-2 max-h-183 sm:max-h-200 overflow-y-auto rounded-xl shadow-xl">
+  <div class="glass grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 px-2 sm:py-2 rounded-xl shadow-xl">
     <app-card/>
     <app-card/>
     <app-card/>
