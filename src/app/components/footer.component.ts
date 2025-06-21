@@ -25,14 +25,14 @@ import { RouterModule } from '@angular/router';
       <div class="grid grid-flow-col gap-4">
         @for (social of footer.socialLinks; track social.url) {
         <a [href]="social.url" target="_blank">
-          <img [src]="social.img" [alt]="'logo-' + social.name" width="28" height="28" class="filter invert" />
+          <img [src]="social.img" [alt]="'logo-' + social.name" width="28" height="28" class="invert" />
         </a>
         }
       </div>
     </footer>
   }
   `,
-  styles: [],
+  styles: ``,
 })
 export class FooterComponent {
   footerService = inject(FooterService);

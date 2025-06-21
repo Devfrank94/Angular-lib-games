@@ -69,7 +69,7 @@ import { Component } from '@angular/core';
             </li>
           </ul>
           <div>
-            <button class="btn btn-block bg-accent text-white mt-3 shadow-md">Info</button>
+            <button class="btn btn-block text-lg sm:text-md bg-accent text-white mt-3 shadow-md">Info</button>
           </div>
         </div>
       </div>
