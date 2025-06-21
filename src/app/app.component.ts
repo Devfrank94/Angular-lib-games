@@ -1,8 +1,8 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { filter } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 // Import componenti
 import { GoToTopComponent } from "./components/go-to-top.component";
@@ -65,21 +65,22 @@ export class AppComponent {
   private router = inject(Router);
   private currentUrl = signal(this.router.url);
   
+  private navigationEnd = toSignal(
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(() => true)
+    )
+  );
+  
   protected showNavbar = computed(() => this.currentUrl() !== '/404');
 
   constructor() {
-    console.log(this.router.url, '<--------prima della subscribe');
-    this.router.events
-      .pipe(
-        filter(event => event instanceof NavigationEnd),
-        takeUntilDestroyed()
-      )
-      .subscribe(() => {
-        // Ritarda la lettura per catturare l'URL finale dopo il redirect
+    effect(() => {
+      if (this.navigationEnd()) {
         setTimeout(() => {
           this.currentUrl.set(this.router.url);
         }, 0);
-      });
-      console.log(this.router.url, '<--------dopo della subscribe');
+      }
+    });
   }
 }
