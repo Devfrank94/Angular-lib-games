@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     <ul class="hidden sm:block menu menu-sm md:menu-md lg:menu-lg xl:menu-xl rounded-lg shadow-xl md:w-50 lg:w-60 xl:w-70 bg-base-300">
       <li class="gap-4 md:my-2">
         @for  (item of navbarConfig; track item.route) {
-        <a class="tooltip tooltip-bottom md:tooltip-right" [attr.data-tip]="capitalize(item.label)" [routerLink]="item.route" routerLinkActive="menu-active">
+        <a class="tooltip tooltip-hover tooltip-bottom md:tooltip-right" [attr.data-tip]="capitalize(item.label)" [routerLink]="item.route" routerLinkActive="menu-active">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-6 w-6"
