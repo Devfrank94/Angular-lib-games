@@ -53,7 +53,7 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
           </div>
         }
 
-        <div *ngIf="filteredGames()!.length === 0" class="flex justify-center mt-8">
+        <div *ngIf="filteredGames()!.length !== 0" class="flex justify-center mt-8">
           <button
             class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
             [disabled]="apiService.gamesLoading()"
