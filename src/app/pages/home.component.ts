@@ -3,17 +3,18 @@ import { CardComponent } from "../components/card.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { LoadingComponent } from "../components/loading.component";
+import { ErrorgenericComponent } from "../components/error-generic.component";
+
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, CardComponent, LoadingComponent],
+  imports: [CommonModule, CardComponent, LoadingComponent, ErrorgenericComponent],
   template: `
   <div class="mx-auto sm:px-2">
-      <h1 class="text-4xl font-bold text-center mb-3">Gaming Hub</h1>
-
-      <div class="flex justify-center mb-6">
-        <div class="tabs tabs-boxed">
+      <div class="flex justify-center mt-2 mb-6">
+        <div role="tablist" class="font-bold tabs tabs-border bg-base-300 rounded-md shadow-md gap-3 tabs-md sm:tabs-xl">
           <button
+            role="tab"
             class="tab"
             [class.tab-active]="currentFilter() === 'all'"
             (click)="setFilter('all')"
@@ -21,6 +22,7 @@ import { LoadingComponent } from "../components/loading.component";
             Tutti i giochi
           </button>
           <button
+            role="tab"
             class="tab"
             [class.tab-active]="currentFilter() === 'popular'"
             (click)="setFilter('popular')"
@@ -31,34 +33,29 @@ import { LoadingComponent } from "../components/loading.component";
       </div>
 
       @if (apiService.gamesLoading()) {
-        <div class="flex-center-center h-64">
+        <div class="flex-center-center h-100">
           <app-loading />
         </div>
       } @else if (apiService.gamesError()) {
-        <div class="alert alert-error">
-          <span>Errore nel caricamento dei dati</span>
-        </div>
+        <app-error-generic />
+
       } @else if (filteredGames()) {
         <div class="glass grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 px-2 sm:py-2 rounded-xl shadow-xl">
-          <app-card />
-          <app-card />
-          <app-card />
-          <app-card />
-        <!-- @for (game of filteredGames(); track game.id) {
+        @for (game of filteredGames(); track game.id) {
             <app-card [game]="game" />
-            <pre>{{ game | json }}</pre>
-          } -->
+            <!-- <pre>{{ game | json }}</pre> -->
+          }
         </div>
 
         @if (filteredGames()!.length === 0) {
           <div class="text-center py-12">
-            <p class="text-lg text-base-content/70">Nessun gioco trovato</p>
+            <p class="text-xl font-bold text-base-content">Nessun gioco trovato</p>
           </div>
         }
 
-        <div class="flex justify-center mt-8">
+        <div *ngIf="filteredGames()!.length === 0" class="flex justify-center mt-8">
           <button
-            class="btn btn-accent text-lg sm:text-md text-white mt-3 shadow-lg"
+            class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
             [disabled]="apiService.gamesLoading()"
             (click)="loadMore()"
           >
@@ -76,7 +73,7 @@ import { LoadingComponent } from "../components/loading.component";
   styles: ``
 })
 export default class HomeComponent implements OnInit {
-   readonly apiService = inject(ApiService);
+  readonly apiService = inject(ApiService);
 
   private readonly currentPage = signal(1);
   readonly currentFilter = signal<'all' | 'popular'>('all');
