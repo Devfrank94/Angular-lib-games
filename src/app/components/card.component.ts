@@ -81,6 +81,7 @@ import { Game } from '../models/game.interface';
           [src]="game().background_image" 
           [alt]="game().name"
           class="w-full object-cover"
+          loading="lazy"
         />
       </figure>
       <div class="card-body">

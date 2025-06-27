@@ -40,11 +40,13 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
         <app-error-generic />
 
       } @else if (filteredGames()) {
-        <div class="glass grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 px-2 sm:py-2 rounded-xl shadow-xl">
+        <div class="masonry-grid glass px-2 sm:py-2 rounded-xl shadow-xl">
         @for (game of filteredGames(); track game.id) {
+          <div class="masonry-item">
             <app-card [game]="game" />
             <!-- <pre>{{ game | json }}</pre> -->
-          }
+          </div>
+        }
         </div>
 
         @if (filteredGames()!.length === 0) {
@@ -70,7 +72,30 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
 
 
   `,
-  styles: ``
+  styles: `
+    .masonry-grid {
+    columns: 1;
+    column-gap: 1rem;
+    @media (min-width: 640px) {
+      columns: 2;
+    }
+    @media (min-width: 1200px) {
+      columns: 3;
+    }
+    @media (min-width: 1560px) {
+      columns: 4;
+    }
+    @media (min-width: 1850px) {
+      columns: 5;
+    }
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+  }
+  `
 })
 export default class HomeComponent implements OnInit {
   readonly apiService = inject(ApiService);
