@@ -52,12 +52,6 @@ import { RouterModule } from '@angular/router';
 export class NavbarComponent {
   navbarService = inject(NavbarService);
 
-  // constructor() {
-  //   effect(() => {
-  //     console.log('Navbar config:', this.navbarService.navbarConfig());
-  //   });
-  // }
-
   capitalize(label: string): string {
     return label ? label.charAt(0).toUpperCase() + label.slice(1) : '';
   }

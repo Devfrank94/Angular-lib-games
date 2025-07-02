@@ -2,72 +2,77 @@ import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CardComponent } from "../components/card.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
-import { LoadingComponent } from "../components/loading.component";
 import { ErrorgenericComponent } from "../components/error-generic.component";
+import { SkeletonComponent } from "../components/skeleton.component";
 
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, CardComponent, LoadingComponent, ErrorgenericComponent],
+  imports: [CommonModule, CardComponent, ErrorgenericComponent, SkeletonComponent],
   template: `
   <div class="mx-auto sm:px-2">
-      <div class="flex justify-center mt-2 mb-6">
-        <div role="tablist" class="font-bold tabs tabs-border bg-base-300 rounded-md shadow-md gap-3 tabs-md sm:tabs-xl">
-          <button
-            role="tab"
-            class="tab"
-            [class.tab-active]="currentFilter() === 'all'"
-            (click)="setFilter('all')"
-          >
-            Tutti i giochi
-          </button>
-          <button
-            role="tab"
-            class="tab"
-            [class.tab-active]="currentFilter() === 'popular'"
-            (click)="setFilter('popular')"
-          >
-            Popolari
-          </button>
-        </div>
+    <div class="flex justify-center mt-2 mb-6">
+      <div role="tablist" class="font-bold tabs tabs-border bg-base-300 rounded-md shadow-md gap-3 tabs-md sm:tabs-xl">
+        <button
+          role="tab"
+          class="tab"
+          [class.tab-active]="currentFilter() === 'all'"
+          (click)="setFilter('all')"
+        >
+          Tutti i giochi
+        </button>
+        <button
+          role="tab"
+          class="tab"
+          [class.tab-active]="currentFilter() === 'popular'"
+          (click)="setFilter('popular')"
+        >
+          Popolari
+        </button>
       </div>
+    </div>
 
-      @if (apiService.gamesLoading()) {
-        <div class="flex-center-center h-100">
-          <app-loading />
-        </div>
-      } @else if (apiService.gamesError()) {
-        <app-error-generic />
+    @if (apiService.gamesLoading()) {
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass px-2 sm:py-2 rounded-xl shadow-xl">
+        @for (skeleton of skeletonArray(); track $index) {
+            <app-skeleton />
+        }
+      </div>
+    } @else if (apiService.gamesError()) {
+      <app-error-generic />
 
-      } @else if (filteredGames()) {
+    } @else if (filteredGames()) {
         <div class="masonry-grid glass px-2 sm:py-2 rounded-xl shadow-xl">
-        @for (game of filteredGames(); track game.id) {
-          <div class="masonry-item">
-            <app-card [game]="game" />
-            <!-- <pre>{{ game | json }}</pre> -->
-          </div>
-        }
+          @for (game of filteredGames(); track game.id) {
+            <div class="masonry-item">
+              <app-card [game]="game" />
+            </div>
+          }
         </div>
 
-        @if (filteredGames()!.length === 0) {
-          <div class="text-center py-12">
-            <p class="text-xl font-bold text-base-content">Nessun gioco trovato</p>
-          </div>
-        }
-
-        <div *ngIf="filteredGames()!.length !== 0" class="flex justify-center mt-8">
-          <button
-            class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
-            [disabled]="apiService.gamesLoading()"
-            (click)="loadMore()"
-          >
-            @if (apiService.gamesLoading()) {
-              <app-loading />
-            }
-            Carica altri
-          </button>
+      @if (filteredGames()!.length === 0) {
+        <div class="text-center py-12">
+          <p class="text-xl font-bold text-base-content">Nessun gioco trovato</p>
         </div>
       }
+
+      <div *ngIf="filteredGames()!.length !== 0" class="flex justify-center my-5">
+        <button
+          class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
+          [disabled]="apiService.gamesLoading()"
+          (click)="loadMore()"
+        >
+          @if (apiService.gamesLoading()) {
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass px-2 sm:py-2 rounded-xl shadow-xl">
+              @for (skeleton of skeletonArray(); track $index) {
+                <app-skeleton />
+              }
+            </div>
+          }
+          Carica altri
+        </button>
+      </div>
+    }
   </div>
 
 
@@ -115,6 +120,9 @@ export default class HomeComponent implements OnInit {
     return games;
   });
 
+  // Array Skeleton
+skeletonArray = computed(() => Array(15).fill(null));
+
   ngOnInit(): void {
     this.apiService.getGames();
   }
@@ -127,5 +135,4 @@ export default class HomeComponent implements OnInit {
     this.currentPage.update(page => page + 1);
     this.apiService.getGames(this.currentPage());
   }
-
 }

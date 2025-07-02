@@ -58,7 +58,7 @@ export class ApiService {
     const params = new HttpParams()
       .set('key', this.apiKey)
       .set('page', page.toString())
-      .set('page_size', '20');
+      .set('page_size', '40');
 
     this.http.get<GameResponse>(`${this.baseUrl}/games`, { params })
       .subscribe({
@@ -159,7 +159,7 @@ export class ApiService {
       .set('dates', `${monthAgo.toISOString().split('T')[0]},${currentDate.toISOString().split('T')[0]}`)
       .set('ordering', '-released')
       .set('page', page.toString())
-      .set('page_size', '20');
+      .set('page_size', '40');
 
     this.http.get<GameResponse>(`${this.baseUrl}/games`, { params })
       .subscribe({
@@ -185,7 +185,7 @@ export class ApiService {
       .set('ordering', '-rating')
       .set('metacritic', '80,100')
       .set('page', page.toString())
-      .set('page_size', '20');
+      .set('page_size', '40');
 
     this.http.get<GameResponse>(`${this.baseUrl}/games`, { params })
       .subscribe({
