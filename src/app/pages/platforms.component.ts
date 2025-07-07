@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { MaintenanceComponent } from "../components/maintenance.component";
 
 @Component({
   selector: 'app-platforms',
-  imports: [],
+  imports: [MaintenanceComponent],
   template: `
-    <p>
-      platforms works!
-    </p>
+    <app-maintenance />
   `,
   styles: ``
 })

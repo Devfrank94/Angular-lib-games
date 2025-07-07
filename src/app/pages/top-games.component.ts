@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { MaintenanceComponent } from "../components/maintenance.component";
 
 @Component({
   selector: 'app-top-games',
-  imports: [],
+  imports: [MaintenanceComponent],
   template: `
-    <p>
-      top-games works!
-    </p>
+    <app-maintenance />
   `,
   styles: ``
 })
