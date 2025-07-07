@@ -6,9 +6,13 @@ import { SearchbarComponent } from "./searchbar.component";
   selector: 'app-toolbar',
   imports: [SwitchModeComponent, SearchbarComponent],
   template: `
-    <div class="p-4 w-full bg-base-300 flex-end-center rounded-lg shadow-md gap-3 sm:gap-8">
-      <app-searchbar />
-      <app-switch-mode />
+    <div class="p-4 w-full bg-base-300 flex items-center rounded-lg shadow-md gap-3 sm:gap-8">
+      <div class="flex-auto">
+        <app-searchbar />
+      </div>
+      <div>
+        <app-switch-mode />
+      </div>
     </div>
   `,
   styles: ``
