@@ -42,7 +42,7 @@ import { SkeletonComponent } from "../components/skeleton.component";
       <app-error-generic />
 
     } @else if (filteredGames()) {
-        <div class="masonry-grid glass px-2 sm:py-2 rounded-xl shadow-xl">
+        <div class="masonry-grid glass p-2 rounded-xl shadow-xl">
           @for (game of filteredGames(); track game.id) {
             <div class="masonry-item">
               <app-card [game]="game" />
