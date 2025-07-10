@@ -1,59 +1,149 @@
-# AngularLibGames
+# 🎮 Angular Games Library
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+Una moderna applicazione web Angular per esplorare e scoprire videogiochi utilizzando l'API RAWG. L'applicazione offre un'interfaccia elegante e responsive per navigare tra giochi, piattaforme, sviluppatori e creatori.
 
-## Development server
+<!-- TODO: inserisci link produzione -->
+<!-- Il progetto è reperibile a questo link: -->
 
-To start a local development server, run:
+## 📋 Indice
 
-```bash
-ng serve
-```
+- [Caratteristiche](#-caratteristiche)
+- [Tecnologie Utilizzate](#-tecnologie-utilizzate)
+- [Installazione](#-installazione)
+- [Funzionalità Principali](#-funzionalità-principali)
+- [Componenti](#-componenti)
+- [Styling](#-styling)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## ✨ Caratteristiche
 
-## Code scaffolding
+- **🎯 Interfaccia Moderna**: Design responsive con TailwindCSS e DaisyUI
+- **🔍 Ricerca Avanzata**: Funzionalità di ricerca per trovare giochi specifici
+- **📱 Mobile-First**: Ottimizzata per dispositivi mobili e desktop
+- **⚡ Performance**: Lazy loading e paginazione per prestazioni ottimali
+- **🎨 Temi**: Supporto per modalità chiara/scura
+- **📊 Filtraggio**: Filtri per giochi popolari e nuove uscite
+- **🔄 Stato Reattivo**: Gestione dello stato con Angular Signals
+- **🛡️ Error Handling**: Gestione robusta degli errori con componenti dedicati
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🛠 Tecnologie Utilizzate
 
-```bash
-ng generate component component-name
-```
+### Frontend
+- **Angular 19** - Framework principale
+- **TypeScript** - Linguaggio di programmazione
+- **TailwindCSS 4.1** - Framework CSS utility-first
+- **DaisyUI 5.0** - Componenti UI per TailwindCSS
+- **Angular Signals** - Gestione dello stato reattivo
+- **RxJS** - Programmazione reattiva
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Build & Development
+- **Angular CLI** - Strumenti di sviluppo
+- **PostCSS** - Processore CSS
+- **Autoprefixer** - Prefissi CSS automatici
 
-```bash
-ng generate --help
-```
+### API
+- **RAWG API** - Database di videogiochi
 
-## Building
 
-To build the project run:
+## 🚀 Installazione
 
-```bash
-ng build
-```
+### Prerequisiti
+- Node.js (versione 18 o superiore)
+- npm o yarn
+- Angular CLI
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🎮 Funzionalità Principali
 
-## Running unit tests
+### 1. **Homepage con Catalogo Giochi**
+- Visualizzazione griglia responsive di giochi
+- Filtro per giochi popolari (rating ≥ 4.0)
+- Paginazione infinita con "Carica altri"
+- Layout masonry per ottimizzazione spazio
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### 2. **Ricerca Giochi**
+- Barra di ricerca integrata
+- Ricerca in tempo reale
+- Risultati filtrati per rilevanza
 
-```bash
-ng test
-```
+### 3. **Sezioni Specializzate**
+- **Nuove Uscite**: Giochi rilasciati nell'ultimo mese
+- **Top Giochi**: Giochi con rating Metacritic 80-100
+- **Piattaforme**: Esplorazione per piattaforma di gioco
+- **Sviluppatori**: Catalogo sviluppatori
+- **Creatori**: Database creatori di giochi
 
-## Running end-to-end tests
+### 4. **Card Gioco Dettagliate**
+- Immagine di copertina
+- Informazioni complete (rating, data rilascio, piattaforme)
+- Badge per giochi nuovi e punteggi Metacritic
+- Generi e tempo di gioco
+- Descrizioni dinamiche basate su rating
 
-For end-to-end (e2e) testing, run:
+### 5. **Navigazione Responsive**
+- Menu desktop espandibile/collassabile
+- Dock navigation per mobile
+- Routing con lazy loading
+- tooltip informativi
 
-```bash
-ng e2e
-```
+### 6. **Gestione Stati**
+- Loading states con skeleton screens
+- Error handling con componenti dedicati
+- Gestione stato reattivo con Angular Signals
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🧩 Componenti
 
-## Additional Resources
+### Componenti UI Core
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+#### `CardComponent`
+Visualizza le informazioni di un gioco in formato card:
+- Immagine, titolo, rating, generi
+- Badge per giochi nuovi e punteggi Metacritic
+- Informazioni piattaforme e tempo di gioco
+- Descrizioni dinamiche basate su qualità
+
+#### `NavbarComponent`
+Sistema di navigazione adattivo:
+- Menu desktop con toggle espandi/comprimi
+- Dock navigation per dispositivi mobili
+- Icone SVG e tooltip informativi
+- Integrazione con routing Angular
+
+#### `SearchbarComponent`
+Funzionalità di ricerca:
+- Input reattivo per ricerca giochi
+- Integrazione con API service
+- Gestione stato di ricerca
+
+### Componenti di Stato
+
+#### `SkeletonComponent`
+Placeholder animati durante il caricamento:
+- Animazioni CSS per effetto shimmer
+- Layout responsive per diverse dimensioni
+
+#### `LoadingComponent`
+Indicatori di caricamento:
+- Spinner animato
+- Messaggi di stato
+
+#### `ErrorGenericComponent`
+Gestione errori:
+- Messaggi di errore user-friendly
+- Opzioni di retry
+- Design consistente con l'app
+
+## 🎨 Styling
+
+### TailwindCSS + DaisyUI
+Il progetto utilizza un approccio utility-first con TailwindCSS e componenti DaisyUI:
+
+**Temi Supportati:**
+- Modalità chiara/scura
+- Temi personalizzabili DaisyUI
+- Variabili CSS per consistenza
+
+**Componenti Personalizzati:**
+- Dock navigation per mobile
+- Card animate effects
+- Skeleton loading animations
+
+**Sviluppato con il ❤️ da DevFrank94**
