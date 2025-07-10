@@ -1,0 +1,12 @@
+[build]
+  command = "envsubst < src/environments/environment.prod.ts > temp.ts && mv temp.ts src/environments/environment.prod.ts && ng build --configuration=production"
+  publish = "dist/angular-lib-games/browser"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.rawg.io/api/:splat"
+  status = 200
+  force = true
+
+[build.environment]
+  NODE_VERSION = "18"

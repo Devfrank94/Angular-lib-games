@@ -18,7 +18,7 @@ import {
 })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'https://api.rawg.io/api';
+  private readonly baseUrl = '/api';
   private readonly apiKey = environment.apiKey;
 
   // Games
