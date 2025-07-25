@@ -9,6 +9,7 @@ import { Game } from '../models/game.interface';
       <figure>
         <img
           [src]="game().background_image"
+          (error)="handleImageError($event)"
           [alt]="game().name"
           class="w-full object-cover"
           loading="lazy"
@@ -75,6 +76,10 @@ import { Game } from '../models/game.interface';
 export class CardComponent {
 
   game = input.required<Game>();
+
+  handleImageError(event: Event) {
+    (event.target as HTMLImageElement).src = '/assets/placeholder-img-games.png';
+  }
 
   isNewGame(): boolean {
     if (!this.game().released) return false;
