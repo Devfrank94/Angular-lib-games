@@ -35,7 +35,7 @@ import { RouterModule } from '@angular/router';
             </svg>
           </label>
           <div *ngIf="isMenuOpen()">
-            <p class="hidden md:block mt-1 ms-2 md:text-lg lg:text-xl md:w-30 lg:w-40">Menù</p>
+            <p class="hidden md:block mt-1 ms-3 md:text-lg lg:text-xl md:w-30 lg:w-40">Menù</p>
           </div>
         </div>
       </div>

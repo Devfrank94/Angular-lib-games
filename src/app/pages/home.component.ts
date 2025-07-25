@@ -33,7 +33,7 @@ import { SkeletonComponent } from "../components/skeleton.component";
     </div>
 
     @if (apiService.gamesLoading()) {
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass px-2 sm:py-2 rounded-xl shadow-xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass p-2 rounded-xl shadow-xl">
         @for (skeleton of skeletonArray(); track $index) {
           <app-skeleton />
         }
