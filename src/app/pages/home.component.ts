@@ -44,7 +44,7 @@ import { SkeletonComponent } from "../components/skeleton.component";
     } @else if (filteredGames()) {
         <div class="masonry-grid glass p-2 rounded-xl shadow-xl">
           @for (game of filteredGames(); track game.id) {
-            <div class="masonry-item">
+            <div class="masonry-item w-full">
               <app-card [game]="game" />
             </div>
           }
