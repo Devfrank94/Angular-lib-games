@@ -5,7 +5,7 @@ import { Game } from '../models/game.interface';
   selector: 'app-card',
   imports: [],
   template: `
-      <div class="card w-100 bg-base-300 shadow-xl">
+      <div class="card bg-base-300 shadow-xl">
       <figure>
         <img
           [src]="game().background_image"
