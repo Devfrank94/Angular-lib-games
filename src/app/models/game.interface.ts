@@ -1,5 +1,6 @@
 export interface Game {
   id: number;
+  slug: string;
   name: string;
   background_image: string;
   released: string;
@@ -60,7 +61,7 @@ export interface GameResponse {
   count: number;
   next: string | null;
   previous: string | null;
-  results: Game[];
+  results: Game[] | null;
 }
 
 export interface PlatformResponse {

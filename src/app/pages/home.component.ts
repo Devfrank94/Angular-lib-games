@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, ViewChild } from '@angular/core';
 import { CardComponent } from "../components/card.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
@@ -41,9 +41,9 @@ import { SkeletonComponent } from "../components/skeleton.component";
     } @else if (apiService.gamesError()) {
       <app-error-generic />
 
-    } @else if (filteredGames()) {
+    } @else if ((filteredGames() || []).length > 0) {
         <div class="masonry-grid glass p-2 rounded-xl shadow-xl">
-          @for (game of filteredGames(); track game.id) {
+          @for (game of filteredGames() || []; track game.id) {
             <div class="masonry-item w-full">
               <app-card [game]="game" />
             </div>
@@ -57,20 +57,21 @@ import { SkeletonComponent } from "../components/skeleton.component";
       }
 
       <div *ngIf="filteredGames()!.length !== 0" class="flex justify-center my-5">
-        <button
-          class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
-          [disabled]="apiService.gamesLoading()"
-          (click)="loadMore()"
-        >
-          @if (apiService.gamesLoading()) {
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass px-2 sm:py-2 rounded-xl shadow-xl">
-              @for (skeleton of skeletonArray(); track $index) {
-                <app-skeleton />
-              }
-            </div>
-          }
-          Carica altri
-        </button>
+        @if (apiService.gamesLoading()) {
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-5 gap-4 glass px-2 sm:py-2 rounded-xl shadow-xl">
+            @for (skeleton of skeletonArray(); track $index) {
+              <app-skeleton />
+            }
+          </div>
+        }
+        <div>
+          <button class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
+            [disabled]="apiService.gamesLoading()"
+            (click)="loadMore()"
+            >
+            Carica altri
+          </button>
+        </div>
       </div>
     }
   </div>
@@ -103,6 +104,7 @@ import { SkeletonComponent } from "../components/skeleton.component";
   `
 })
 export default class HomeComponent implements OnInit {
+
   readonly apiService = inject(ApiService);
 
   private readonly currentPage = signal(1);
