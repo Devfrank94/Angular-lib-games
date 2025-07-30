@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
 import { Game } from '../models/game.interface';
+import { RatingStarComponent } from "./rating-star.component";
 
 @Component({
   selector: 'app-card',
-  imports: [],
+  imports: [RatingStarComponent],
   template: `
     @if (game().id) {
         <div class="card bg-base-300 shadow-xl">
@@ -39,10 +40,7 @@ import { Game } from '../models/game.interface';
 
           <ul class="mt-2 mb-4 flex flex-col gap-1 text-xs">
             <li>
-              <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-              </svg>
-              <span>Rating: {{ game().rating }}/5 ({{ game().ratings_count }} reviews)</span>
+              <app-rating-star [rating]="game().rating" />
             </li>
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
