@@ -7,10 +7,18 @@ export interface Game {
   rating: number;
   rating_top: number;
   ratings_count: number;
+  saturated_color: string;
+  dominant_color: string;
   metacritic: number;
   playtime: number;
+  short_screenshots: Screenshots[];
   genres: Genre[];
   platforms: PlatformWrapper[];
+}
+
+export interface Screenshots {
+  id: number;
+  image: string;
 }
 
 export interface Platform {
