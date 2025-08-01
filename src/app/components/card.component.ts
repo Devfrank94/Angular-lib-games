@@ -29,7 +29,7 @@ import { RatingStarComponent } from "./rating-star.component";
           <div class="flex gap-2">
             @if (game().genres.length > 0) {
               @for (genre of game().genres.slice(0, 2); track genre.id) {
-              <div class="badge badge-xs lg:badge-md badge-outline tooltip tooltip-hover tooltip-bottom cursor-pointer" [attr.data-tip]="(genre.name)"><p class="truncate max-w-14">{{ genre.name }}</p></div>
+              <div class="text-white badge badge-xs lg:badge-md bg-accent tooltip tooltip-hover tooltip-bottom cursor-pointer" [attr.data-tip]="(genre.name)"><p class="truncate max-w-14">{{ genre.name }}</p></div>
               }
             }
 
