@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   template: `
 
   @if (navbarService.navbarConfig(); as navbarConfig)  {
-    <ul class="hidden sm:block menu menu-sm md:menu-md lg:menu-lg xl:menu-xl rounded-lg shadow-xl bg-base-300">
+    <ul class="h-full hidden sm:block menu menu-sm md:menu-md lg:menu-lg xl:menu-xl rounded-lg shadow-xl bg-base-300">
       <div class="hidden md:block ms-1 lg:ms-2 xl:ms-3">
         <div class="flex items-center my-2">
           <label class="btn btn-circle btn-neutral fill-neutral-content swap swap-rotate">

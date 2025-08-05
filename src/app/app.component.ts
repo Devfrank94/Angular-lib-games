@@ -16,11 +16,11 @@ import { ToolbarComponent } from "./components/toolbar.component";
   imports: [CommonModule, RouterOutlet, GoToTopComponent, FooterComponent, NavbarComponent, TopbarComponent, ToolbarComponent],
   template: `
 
-    <div class="h-screen flex flex-col">
+    <div class="flex flex-col">
       <div class="flex-1">
         <app-topbar />
         <div class="flex-center-center py-3 sm:py-1">
-          <div class="my-container my-box p-3 sm:m-4 sm:p-4 min-h-[70vh] max-h-[80vh]">
+          <div class="my-container my-box p-3 sm:m-4 sm:p-4">
             <div class="flex gap-4 py-4 px-1 sm:px-4">
               @switch (navbarState()) {
                 @case ('show') {
