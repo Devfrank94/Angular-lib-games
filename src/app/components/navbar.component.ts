@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, HostListener } from '@angular/core';
 import { NavbarService } from '../services/navbar.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -35,7 +35,7 @@ import { RouterModule } from '@angular/router';
             </svg>
           </label>
           <div *ngIf="isMenuOpen()">
-            <p class="hidden md:block mt-1 ms-3 md:text-lg lg:text-xl md:w-30 lg:w-40">Menù</p>
+            <p class="hidden md:block mt-1 ms-3 md:text-lg lg:text-xl">Menù</p>
           </div>
         </div>
       </div>
@@ -85,6 +85,13 @@ import { RouterModule } from '@angular/router';
 export class NavbarComponent {
   navbarService = inject(NavbarService);
   isMenuOpen = signal(false);
+
+  @HostListener('window:resize')
+  onResize(): void {
+    if (window.innerWidth < 868) {
+      this.isMenuOpen.set(false);
+    }
+  }
 
   toggleMenu(): void {
     this.isMenuOpen.update(state => !state);
