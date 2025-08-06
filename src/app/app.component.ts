@@ -33,7 +33,7 @@ import { ToolbarComponent } from "./components/toolbar.component";
               }
               <div class="w-full flex flex-col gap-4">
                 <app-toolbar />
-                <div class="py-3 sm:py-0 sm:px-1 w-full max-h-[54vh] sm:max-h-[59vh] md:max-h-[65vh] lg:max-h-[60vh] xl:max-h-[65vh] overflow-y-auto rounded-xl">
+                <div class="py-3 sm:py-0 sm:px-1 w-full height-responsive overflow-y-auto rounded-xl">
                   <router-outlet />
                 </div>
 
@@ -67,6 +67,47 @@ import { ToolbarComponent } from "./components/toolbar.component";
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.125);
     }
+
+.height-responsive {
+  max-height: 64vh;
+
+  @media (min-width: 640px) {
+    max-height: 68vh;
+  }
+  
+  @media (min-width: 768px) {
+    max-height: 70vh;
+  }
+  
+  @media (min-width: 1024px) {
+    max-height: 65vh;
+  }
+  
+  @media (min-width: 1280px) {
+    max-height: 70vh;
+  }
+  
+  // Landscape
+  @media screen and (orientation: landscape) {
+    max-height: 90vh;
+    
+    @media (min-width: 640px) {
+      max-height: 90vh;
+    }
+    
+    @media (min-width: 768px) {
+      max-height: 95vh;
+    }
+    
+    @media (min-width: 1024px) {
+      max-height: 61vh;
+    }
+    
+    @media (min-width: 1280px) {
+      max-height: 66vh;
+    }
+  }
+}
 `,
 })
 
