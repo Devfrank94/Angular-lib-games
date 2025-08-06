@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   template: `
 
   @if (footerService.footerConfig(); as footer) {
-    <footer class="footer footer-horizontal footer-center bg-neutral text-white pt-0 sm:pt-3 pb-4 px-6 sm:px-12">
+    <footer class="footer mt-8 footer-horizontal footer-center bg-neutral text-white pt-0 sm:pt-3 pb-4 px-6 sm:px-12">
       <div>
         <img [src]="footer.companyLogo" alt="logo" class="w-17 h-17 sm:w-20 sm:h-20" />
           <p class="font-bold">

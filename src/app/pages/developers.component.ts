@@ -5,7 +5,7 @@ import { MaintenanceComponent } from "../components/maintenance.component";
   selector: 'app-developers',
   imports: [MaintenanceComponent],
   template: `
-    <app-maintenance />
+      <app-maintenance />
   `,
   styles: ``
 })

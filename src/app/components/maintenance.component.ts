@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-maintenance',
   imports: [],
   template: `
-  <div class="grid h-100">
-    <div class="flex-center-center bg-base-300 rounded-lg shadow-md py-8 px-5">
+  <div class="h-100">
+    <div class="flex-center-center h-full bg-base-300 rounded-lg shadow-md py-8 px-5">
       <div class="text-center">
         <!-- Maintenance Icon -->
         <div class="my-2 sm:my-8">
