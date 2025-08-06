@@ -87,6 +87,18 @@ import { ToolbarComponent } from "./components/toolbar.component";
     max-height: 80vh;
   }
 
+  @media (min-width: 1920px) {
+    max-height: 80vh;
+  }
+
+  @media (min-width: 2560px) {
+    max-height: 90vh;
+  }
+
+  @media (min-width: 3840px) {
+    max-height: 90vh;
+  }
+
   // Landscape
   @media screen and (orientation: landscape) {
     max-height: 90vh;
