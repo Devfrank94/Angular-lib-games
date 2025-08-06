@@ -79,28 +79,6 @@ import { SkeletonComponent } from "../components/skeleton.component";
 
   `,
   styles: `
-    .masonry-grid {
-    columns: 1;
-    column-gap: 1rem;
-    @media (min-width: 640px) {
-      columns: 2;
-    }
-    @media (min-width: 1200px) {
-      columns: 3;
-    }
-    @media (min-width: 1560px) {
-      columns: 4;
-    }
-    @media (min-width: 1850px) {
-      columns: 5;
-    }
-  }
-
-  .masonry-item {
-    break-inside: avoid;
-    margin-bottom: 1.5rem;
-    display: inline-block;
-  }
   `
 })
 export default class HomeComponent implements OnInit {
