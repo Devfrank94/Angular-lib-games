@@ -112,11 +112,11 @@ import { ToolbarComponent } from "./components/toolbar.component";
     }
 
     @media (min-width: 1024px) {
-      max-height: 61vh;
+      max-height: 95vh;
     }
 
     @media (min-width: 1280px) {
-      max-height: 66vh;
+      max-height: 95vh;
     }
   }
 }
