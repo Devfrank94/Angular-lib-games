@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect, HostListener } from '@angular/core';
+import { Component, inject, signal, HostListener} from '@angular/core';
 import { NavbarService } from '../services/navbar.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -9,39 +9,39 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
   template: `
 
-  @if (navbarService.navbarConfig(); as navbarConfig)  {
+  @if (navbarService.navbarConfig(); as navbarConfig) {
     <ul class="h-full hidden sm:block menu menu-sm md:menu-md lg:menu-lg xl:menu-xl rounded-lg shadow-xl bg-base-300">
-      <div class="hidden md:block ms-1 lg:ms-2 xl:ms-3">
-        <div class="flex items-center my-2">
-          <label class="btn btn-circle btn-neutral fill-neutral-content swap swap-rotate">
-            <input
-            type="checkbox"
-            [checked]="isMenuOpen()"
-            (change)="toggleMenu()" />
-            <!-- hamburger icon -->
-            <svg
-              class="swap-off h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512">
-              <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
-            </svg>
-            <!-- close icon -->
-            <svg
-              class="swap-on h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512">
-              <polygon
-                points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
-            </svg>
-          </label>
-          <div *ngIf="isMenuOpen()">
-            <p class="hidden md:block mt-1 ms-3 md:text-lg lg:text-xl">Menù</p>
+      <div class="max-[868px]:hidden">
+        <div class="ms-1 lg:ms-2 xl:ms-3">
+          <div class="flex items-center my-2">
+            <label class="btn btn-circle btn-neutral fill-neutral-content swap swap-rotate">
+              <input
+              type="checkbox"
+              [checked]="isMenuOpen()"
+              (change)="toggleMenu()" />
+              <!-- hamburger icon -->
+              <svg
+                class="swap-off h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512">
+                <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
+              </svg>
+              <!-- close icon -->
+              <svg
+                class="swap-on h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512">
+                <polygon
+                  points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
+              </svg>
+            </label>
+            <div *ngIf="isMenuOpen()">
+              <p class="hidden md:block mt-1 ms-3 md:text-lg lg:text-xl">Menù</p>
+            </div>
           </div>
         </div>
+        <div class="border-b-1 border-base-content/20 my-4"></div>
       </div>
-
-      <div class="hidden md:block border-b-1 border-base-content/20 my-3"></div>
-
       <li class="gap-4 md:my-2">
         @for  (item of navbarConfig; track item.route) {
         <a class="tooltip tooltip-hover tooltip-bottom md:tooltip-right" [attr.data-tip]="capitalize(item.label)" [routerLink]="item.route" routerLinkActive="menu-active">
@@ -58,7 +58,7 @@ import { RouterModule } from '@angular/router';
               [attr.d]="item.iconSvg" />
           </svg>
           <div *ngIf="isMenuOpen()">
-            <p class="hidden md:block mt-1 capitalize md:text-lg lg:text-xl md:w-30 lg:w-40" [class.ms-2]="isMenuOpen()">{{ item.label }}</p>
+            <p class="hidden md:block mt-1 capitalize md:text-lg lg:text-xl" [class.ms-2]="isMenuOpen()">{{ item.label }}</p>
           </div>
         </a>
         }
@@ -83,6 +83,7 @@ import { RouterModule } from '@angular/router';
   styles: ``
 })
 export class NavbarComponent {
+
   navbarService = inject(NavbarService);
   isMenuOpen = signal(false);
 
