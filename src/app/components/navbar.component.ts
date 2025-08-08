@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener} from '@angular/core';
+import { Component, inject, signal, HostListener } from '@angular/core';
 import { NavbarService } from '../services/navbar.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
