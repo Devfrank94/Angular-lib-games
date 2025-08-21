@@ -10,7 +10,8 @@ import {
     Game,
     Platform,
     Creator,
-    Developer
+    Developer,
+    GameDetail
 } from "../models/game.interface";
 
 @Injectable({
@@ -25,6 +26,11 @@ export class ApiService {
     games = signal<Game[] | null>(null);
     gamesLoading = signal(false);
     gamesError = signal(false);
+
+    // Game Detail
+    gameDetail = signal<GameDetail | null>(null);
+    gameDetailLoading = signal(false);
+    gameDetailError = signal(false);
 
     // Platforms
     platforms = signal<Platform[] | null>(null);
@@ -80,6 +86,31 @@ export class ApiService {
                 },
             });
     }
+
+    getGameDetail(gameId: number): void {
+      this.gameDetail.set(null);
+      this.gameDetailLoading.set(true);
+      this.gameDetailError.set(false);
+
+      const params = new HttpParams().set('key', this.apiKey);
+
+      this.http.get<GameDetail>(`${this.baseUrl}/games/${gameId}`, { params })
+        .subscribe({
+          next: (res) => {
+            this.gameDetail.set(res);
+            this.gameDetailLoading.set(false);
+          },
+          error: () => {
+            this.gameDetailError.set(true);
+            this.gameDetailLoading.set(false);
+          }
+        });
+    }
+
+    // clearGameDetail(): void {
+    //   this.gameDetail.set(null);
+    //   this.gameDetailError.set(false);
+    // }
 
     getPlatforms(page: number = 1): void {
         this.platformsLoading.set(true);

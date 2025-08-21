@@ -11,15 +11,59 @@ export interface Game {
   dominant_color: string;
   metacritic: number;
   playtime: number;
-  short_screenshots: Screenshots[];
   genres: Genre[];
   platforms: PlatformWrapper[];
 }
 
-export interface Screenshots {
+///////////////////// Game Detail ////////////////
+
+export interface GameDetail extends Game {
+  description?: string;
+  description_raw?: string;
+  website?: string;
+  achievements_count?: number;
+  reddit_url?: string;
+  reddit_count?: number;
+  twitch_count?: number;
+  youtube_count?: number;
+  added?: number;
+  updated?: string;
+  developers?: Developer[];
+  publishers?: Publisher[];
+  tags?: Tag[];
+  screenshots?: Screenshot[];
+  stores?: Store[];
+}
+
+export interface Publisher {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+}
+
+export interface Screenshot {
   id: number;
   image: string;
 }
+
+export interface Store {
+  id: number;
+  name: string;
+  slug: string;
+  domain: string;
+  image_background: string;
+}
+
+///////////////////// Game Detail ////////////////
 
 export interface Platform {
   id: number;
