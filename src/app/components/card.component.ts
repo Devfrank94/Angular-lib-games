@@ -1,10 +1,12 @@
 import { Component, input } from '@angular/core';
 import { Game } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card',
-  imports: [RatingStarComponent],
+  imports: [CommonModule, RouterLink, RatingStarComponent],
   template: `
     @if (game().id) {
         <div class="card bg-base-300 shadow-xl">
@@ -65,9 +67,9 @@ import { RatingStarComponent } from "./rating-star.component";
           </ul>
 
           <div>
-            <button class="btn btn-block text-lg sm:text-md bg-accent text-white mt-3 shadow-md">
+            <a role="button" [routerLink]="['/game', game().id]" class="btn btn-block text-lg sm:text-md bg-accent text-white mt-3 shadow-md">
               Dettagli Gioco
-            </button>
+            </a>
           </div>
         </div>
       </div>
