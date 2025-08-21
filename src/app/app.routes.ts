@@ -12,6 +12,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home.component'),
   },
   {
+    path: 'game/:id',
+    title: "Dettagli Gioco - Games Library",
+    loadComponent: () => import('./components/game-detail.component').then(m => m.GameDetailComponent)
+  },
+  {
     path: "platforms",
     loadComponent: () => import('./pages/platforms.component'),
     title: "Piattaforme - Games Library",
@@ -47,3 +52,4 @@ export const routes: Routes = [
     title: "Errore 404 Pagina non trovata"
   }
 ];
+
