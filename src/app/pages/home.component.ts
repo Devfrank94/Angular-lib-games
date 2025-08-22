@@ -101,7 +101,7 @@ export default class HomeComponent implements OnInit {
   });
 
   // Array Skeleton
-skeletonArray = computed(() => Array(15).fill(null));
+  skeletonArray = computed(() => Array(15).fill(null));
 
   ngOnInit(): void {
     this.apiService.getGames();

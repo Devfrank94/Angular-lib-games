@@ -8,13 +8,13 @@ export const routes: Routes = [
   },
   {
     path: "home",
-    title: "Home - Games Library",
     loadComponent: () => import('./pages/home.component'),
+    title: "Home - Games Library"
   },
   {
-    path: 'game/:id',
-    title: "Dettagli Gioco - Games Library",
-    loadComponent: () => import('./components/game-detail.component').then(m => m.GameDetailComponent)
+    path: 'game/:id/:slug',
+    loadComponent: () => import('./pages/detail-view/game-detail.component').then(m => m.GameDetailComponent),
+    title: "Dettagli Gioco - Games Library"
   },
   {
     path: "platforms",

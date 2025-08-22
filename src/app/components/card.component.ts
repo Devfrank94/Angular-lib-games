@@ -67,7 +67,7 @@ import { RouterLink } from '@angular/router';
           </ul>
 
           <div>
-            <a role="button" [routerLink]="['/game', game().id]" class="btn btn-block text-lg sm:text-md bg-accent text-white mt-3 shadow-md">
+            <a role="button" [routerLink]="['/game', game().id, game().slug]" class="btn btn-block text-lg sm:text-md bg-accent text-white mt-3 shadow-md">
               Dettagli Gioco
             </a>
           </div>

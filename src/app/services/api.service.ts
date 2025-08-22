@@ -97,20 +97,16 @@ export class ApiService {
       this.http.get<GameDetail>(`${this.baseUrl}/games/${gameId}`, { params })
         .subscribe({
           next: (res) => {
-            this.gameDetail.set(res);
+            this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
           },
           error: () => {
+            this.gameDetail.set(null);
             this.gameDetailError.set(true);
             this.gameDetailLoading.set(false);
           }
         });
     }
-
-    // clearGameDetail(): void {
-    //   this.gameDetail.set(null);
-    //   this.gameDetailError.set(false);
-    // }
 
     getPlatforms(page: number = 1): void {
         this.platformsLoading.set(true);
