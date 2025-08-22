@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { Game } from '../models/game.interface';
+import { RatingStarComponent } from "./rating-star.component";
 
 @Component({
   selector: 'app-card-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, RatingStarComponent],
   template: `
     <div class="card bg-base-300 shadow-xl">
       <figure>
@@ -25,10 +26,10 @@ import { Game } from '../models/game.interface';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <h3 class="text-lg font-semibold mb-2">Informazioni</h3>
-            <ul class="space-y-2 text-sm">
+            <ul class="space-y-3 text-sm">
               <li><strong>Data rilascio:</strong> {{ game().released }}</li>
-              <li><strong>Rating:</strong> {{ game().rating }}/{{ game().rating_top }}</li>
-              <li><strong>Metacritic:</strong> {{ game().metacritic || 'N/A' }}</li>
+              <li><app-rating-star [rating]="game().rating" /></li> 
+              <li><strong>Metacritic:</strong><span class="ms-2 badge badge-warning badge-xs lg:badge-md">{{ game().metacritic || 'N/A' }}</span></li>
               <li><strong>Tempo di gioco:</strong> {{ game().playtime }} ore</li>
               <li><strong>Recensioni:</strong> {{ game().ratings_count }}</li>
             </ul>
@@ -38,23 +39,26 @@ import { Game } from '../models/game.interface';
             <h3 class="text-lg font-semibold mb-2">Generi</h3>
             <div class="flex flex-wrap gap-2 mb-4">
               @for (genre of game().genres; track genre.id) {
-                <span class="badge badge-primary">{{ genre.name }}</span>
+                <span class="badge badge-accent">{{ genre.name }}</span>
               }
             </div>
 
             <h3 class="text-lg font-semibold mb-2">Piattaforme</h3>
             <div class="flex flex-wrap gap-2">
-              @for (platform of game().platforms.slice(0, 4); track platform.platform.id) {
+              @for (platform of game().platforms.slice(0, 10); track platform.platform.id) {
                 <span class="badge badge-outline">{{ platform.platform.name }}</span>
               }
             </div>
           </div>
         </div>
 
-        @if (game()?.description_raw) {
+        @if (game()?.description) {
           <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2">Descrizione</h3>
-            <p class="text-sm leading-relaxed">{{ game().description_raw }}</p>
+            <div 
+              class="text-sm leading-relaxed prose prose-sm max-w-none"
+              [innerHTML]="game().description"
+            ></div>
           </div>
         }
 
@@ -63,7 +67,7 @@ import { Game } from '../models/game.interface';
             <h3 class="text-lg font-semibold mb-2">Sviluppatori</h3>
             <div class="flex flex-wrap gap-2">
               @for (dev of game().developers; track dev.id) {
-                <span class="badge badge-secondary">{{ dev.name }}</span>
+                <span class="badge badge-accent">{{ dev.name }}</span>
               }
             </div>
           </div>
