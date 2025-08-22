@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
@@ -6,6 +6,7 @@ import { LoadingComponent } from "../../components/loading.component";
 import { CardDetailComponent } from '../../components/card-detail.component';
 import { ErrorgenericComponent } from '../../components/error-generic.component';
 import { Subject } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game-detail',
@@ -45,12 +46,29 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   readonly apiService = inject(ApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-
   private destroy$ = new Subject<void>();
+  private readonly titleService = inject(Title);
+
+  constructor () {
+    effect(() => {
+      const game = this.apiService.gameDetail();
+      const loading = this.apiService.gameDetailLoading();
+      
+      if (loading) {
+        this.titleService.setTitle('Caricamento... - Games Library');
+      } else if (game?.name) {
+        this.titleService.setTitle(`${game.name} - Games Library`);
+      } else {
+        this.titleService.setTitle('Gioco non trovato - Games Library');
+      }
+    });
+  }
+
 
   ngOnInit(): void {
     const gameId = this.route.snapshot.params['id'];
     const slug = this.route.snapshot.params['slug'];
+
     if (gameId) {
       this.apiService.getGameDetail(+gameId);
 

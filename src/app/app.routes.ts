@@ -14,7 +14,7 @@ export const routes: Routes = [
   {
     path: 'game/:id/:slug',
     loadComponent: () => import('./pages/detail-view/game-detail.component').then(m => m.GameDetailComponent),
-    title: "Dettagli Gioco - Games Library"
+    title: "Dettagli Gioco - Games Library",
   },
   {
     path: "platforms",

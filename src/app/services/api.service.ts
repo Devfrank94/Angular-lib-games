@@ -99,7 +99,8 @@ export class ApiService {
           next: (res) => {
             this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
-            console.log('Gioco Caricato ---->:', res);
+            // TODO:rimuovi consolo.log
+            // console.log('Gioco Caricato ---->:', res);
           },
           error: () => {
             this.gameDetail.set(null);
