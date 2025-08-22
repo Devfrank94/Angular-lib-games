@@ -13,7 +13,6 @@ import {
     Developer,
     GameDetail
 } from "../models/game.interface";
-import { Subscription } from "rxjs";
 
 @Injectable({
     providedIn: "root",

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-error-generic',
   imports: [],
   template: `
-    <div class="flex flex-col min-h-60 h-90">
+    <div class="flex flex-col h-80 sm:h-[50vh] 2xl:h-[70vh]">
       <div class="text-center flex-1 bg-base-100/50 flex-center-center rounded-lg shadow-md p-5">
         <div class="my-2 sm:my-8">
           <div class=" w-16 h-16 sm:w-32 sm:h-32 mx-auto mb-3 sm:mb-6 bg-error/10 rounded-full flex-center-center">

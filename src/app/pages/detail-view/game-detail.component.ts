@@ -11,23 +11,29 @@ import { Subject } from 'rxjs';
   selector: 'app-game-detail',
   imports: [CommonModule, LoadingComponent, ErrorgenericComponent, CardDetailComponent],
   template: `
-    <div class="container mx-auto px-4 py-8">
+    <div class="mx-auto px-4 py-8">
       @if (apiService.gameDetailLoading()) {
-        <div class="flex justify-center items-center h-100">
+        <div class="flex justify-center items-center h-80 sm:h-[50vh] 2xl:h-[70vh]">
           <app-loading/>
         </div>
       } @else if (apiService.gameDetailError()) {
         <app-error-generic />
       } @else if (apiService.gameDetail()) {
-          <div class="">
-            <button class="btn btn-ghost mb-4" (click)="goBack()">
-              ← Torna indietro
+          <div class="p-2 shadow-xl">
+            <button
+              class="btn btn-accent btn-md sm:btn-lg mb-3" (click)="goBack()">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+              </svg>
+              Indietro
             </button>
 
             @if (apiService.gameDetail(); as game) {
-              <app-card-detail [game]="game" />
+              <div class="container mx-auto">
+                <app-card-detail [game]="game" />
+              </div>
             }
-
           </div>
         }
     </div>
