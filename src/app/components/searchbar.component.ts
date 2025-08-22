@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { globalSearchQuery } from '../signals/search.signal';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Subject, debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-searchbar',
@@ -35,6 +36,7 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 export class SearchbarComponent {
 
   private readonly apiService = inject(ApiService);
+  private readonly router = inject(Router);
   readonly searchQuery = globalSearchQuery;
 
 
@@ -48,6 +50,16 @@ export class SearchbarComponent {
     ).subscribe(query => {
       this.performSearch(query);
     });
+
+    // Ripristina la ricerca quando si torna alla home
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        // Se siamo in home e c'è una search query, ripristina i risultati
+        if (event.url === '/' || event.url === '/home') {
+          this.performSearch(this.searchQuery());
+        }
+      });
   }
 
   onSearch(event?: Event): void {
