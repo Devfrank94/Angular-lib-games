@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-maintenance',
   imports: [],
   template: `
-  <div class="h-100">
+  <div class="h-80 sm:h-[50vh] 2xl:h-[70vh]">
     <div class="flex-center-center h-full bg-base-300 rounded-lg shadow-md py-8 px-5">
       <div class="text-center">
         <!-- Maintenance Icon -->
