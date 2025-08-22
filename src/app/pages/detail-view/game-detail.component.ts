@@ -1,13 +1,15 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { LoadingComponent } from "../../components/loading.component";
 import { CardDetailComponent } from '../../components/card-detail.component';
+import { ErrorgenericComponent } from '../../components/error-generic.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-game-detail',
-  imports: [CommonModule, LoadingComponent, CardDetailComponent],
+  imports: [CommonModule, LoadingComponent, ErrorgenericComponent, CardDetailComponent],
   template: `
     <div class="container mx-auto px-4 py-8">
       @if (apiService.gameDetailLoading()) {
@@ -17,12 +19,14 @@ import { CardDetailComponent } from '../../components/card-detail.component';
       } @else if (apiService.gameDetailError()) {
         <app-error-generic />
       } @else if (apiService.gameDetail()) {
-          <div class="mx-auto">
+          <div class="">
             <button class="btn btn-ghost mb-4" (click)="goBack()">
               ← Torna indietro
             </button>
 
-              <app-card-detail />
+            @if (apiService.gameDetail(); as game) {
+              <app-card-detail [game]="game" />
+            }
 
           </div>
         }
@@ -30,11 +34,13 @@ import { CardDetailComponent } from '../../components/card-detail.component';
   `,
   styles: ``
 })
-export class GameDetailComponent implements OnInit {
+export class GameDetailComponent implements OnInit, OnDestroy {
 
   readonly apiService = inject(ApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+
+  private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     const gameId = this.route.snapshot.params['id'];
@@ -54,5 +60,12 @@ export class GameDetailComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+    // Pulisci anche il signal quando esci
+    this.apiService.gameDetail.set(null);
   }
 }

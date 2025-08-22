@@ -1,4 +1,4 @@
-import { Component,input, inject, OnInit } from '@angular/core';
+import { Component,input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
@@ -8,12 +8,7 @@ import { Game } from '../models/game.interface';
   selector: 'app-card-detail',
   imports: [CommonModule],
   template: `
-  <div>
-    <p class="h100 test1">template card</p>
-  </div>
-
-
-    <!-- <div class="card bg-base-300 shadow-xl">
+    <div class="card bg-base-300 shadow-xl">
       <figure>
         <img
           [src]="game().background_image"
@@ -56,14 +51,14 @@ import { Game } from '../models/game.interface';
           </div>
         </div>
 
-        @if (game().description_raw) {
+        @if (game()?.description_raw) {
           <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2">Descrizione</h3>
             <p class="text-sm leading-relaxed">{{ game().description_raw }}</p>
           </div>
         }
 
-        @if (game().developers && game().developers.length > 0) {
+        @if (game()?.developers && game()?.developers.length > 0) {
           <div class="mt-4">
             <h3 class="text-lg font-semibold mb-2">Sviluppatori</h3>
             <div class="flex flex-wrap gap-2">
@@ -74,11 +69,11 @@ import { Game } from '../models/game.interface';
           </div>
         }
       </div>
-    </div> -->
+    </div>
   `,
   styles: ``
 })
-export class CardDetailComponent implements OnInit {
+export class CardDetailComponent{
 
   game = input.required<Game>();
 
@@ -86,30 +81,14 @@ export class CardDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-  ngOnInit(): void {
-    const gameId = this.route.snapshot.params['id'];
-    const slug = this.route.snapshot.params['slug'];
-    if (gameId) {
-      this.apiService.getGameDetail(+gameId);
-
-    // Verifica slug dopo il caricamento
-    setTimeout(() => {
-      const actualSlug = this.apiService.gameDetail()?.slug;
-        if (actualSlug && actualSlug !== slug) {
-          this.router.navigate(['/game', gameId, slug], { replaceUrl: true });
-        }
-      }, 500);
-    }
+  isNewGame(): boolean {
+    const game = this.apiService.gameDetail();
+    if (!game?.released) return false;
+    const releaseDate = new Date(game.released);
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    return releaseDate > threeMonthsAgo;
   }
-
-  // isNewGame(): boolean {
-  //   const game = this.apiService.gameDetail();
-  //   if (!game?.released) return false;
-  //   const releaseDate = new Date(game.released);
-  //   const threeMonthsAgo = new Date();
-  //   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-  //   return releaseDate > threeMonthsAgo;
-  // }
 
   handleImageError(event: Event) {
     (event.target as HTMLImageElement).src = '/assets/placeholder-img-games.png';

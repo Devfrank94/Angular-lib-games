@@ -13,6 +13,7 @@ import {
     Developer,
     GameDetail
 } from "../models/game.interface";
+import { Subscription } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -99,6 +100,7 @@ export class ApiService {
           next: (res) => {
             this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
+            console.log('Gioco Caricato ---->:', res);
           },
           error: () => {
             this.gameDetail.set(null);

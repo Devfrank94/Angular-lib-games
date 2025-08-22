@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CardComponent } from "../components/card.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
