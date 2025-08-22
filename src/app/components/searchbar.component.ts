@@ -1,7 +1,9 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
+import { globalSearchQuery } from '../signals/search.signal';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-searchbar',
@@ -23,8 +25,8 @@ import { ApiService } from '../services/api.service';
         <input
         type="search"
         placeholder="Cerca..."
-        [(ngModel)]="searchQuery"
-        (input)="onSearch()"
+        [value]="searchQuery()"
+        (input)="onSearch($event)"
         (keyup.enter)="onSearch()" />
     </label>
   `,
@@ -33,13 +35,42 @@ import { ApiService } from '../services/api.service';
 export class SearchbarComponent {
 
   private readonly apiService = inject(ApiService);
-  searchQuery = signal('');
+  readonly searchQuery = globalSearchQuery;
 
-  onSearch() {
-    const query = this.searchQuery().trim();
-    if (query.length >= 3) {
-      this.apiService.searchGames(query);
-    } else if (query.length === 0) {
+
+  private searchSubject = new Subject<string>();
+
+  constructor() {
+    // Debounce per evitare troppe chiamate API
+    this.searchSubject.pipe(
+      debounceTime(300), // Aspetta 300ms dopo che l'utente smette di digitare
+      distinctUntilChanged() // Solo se il valore è diverso
+    ).subscribe(query => {
+      this.performSearch(query);
+    });
+  }
+
+  onSearch(event?: Event): void {
+    // Se è chiamata dall'input, aggiorna il signal
+    if (event) {
+      const input = event.target as HTMLInputElement;
+      this.searchQuery.set(input.value);
+    }
+    
+    // Se è Enter, cerca immediatamente
+    if (!event) {
+      this.performSearch(this.searchQuery());
+    } else {
+      // Se è input, usa il debounce
+      this.searchSubject.next(this.searchQuery());
+    }
+  }
+
+  private performSearch(query: string): void {
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length >= 3) {
+      this.apiService.searchGames(trimmedQuery);
+    } else if (trimmedQuery.length === 0) {
       this.apiService.getGames();
     }
   }

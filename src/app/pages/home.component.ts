@@ -1,9 +1,10 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, effect} from '@angular/core';
 import { CardComponent } from "../components/card.component";
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { ErrorgenericComponent } from "../components/error-generic.component";
 import { SkeletonComponent } from "../components/skeleton.component";
+import { globalSearchQuery } from '../signals/search.signal';
 
 
 @Component({
@@ -65,23 +66,25 @@ import { SkeletonComponent } from "../components/skeleton.component";
           </div>
         }
         <div>
-          <button class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
-            [disabled]="apiService.gamesLoading()"
-            (click)="loadMore()"
-            >
-            Carica altri
-          </button>
+
+        @if (searchQuery().length < 3) {
+            <button class="btn btn-accent btn-lg text-lg sm:text-md text-white mt-3 shadow-lg"
+              [disabled]="apiService.gamesLoading()"
+              (click)="loadMore()"
+              >
+              Carica altri
+            </button>
+        }
         </div>
       </div>
     }
   </div>
-
-
   `,
-  styles: `
-  `
+  styles: ``,
 })
 export default class HomeComponent implements OnInit {
+
+  readonly searchQuery = globalSearchQuery;
 
   readonly apiService = inject(ApiService);
 
