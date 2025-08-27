@@ -13,6 +13,7 @@ export interface Game {
   playtime: number;
   genres: Genre[];
   platforms: PlatformWrapper[];
+  parent_platforms?: PlatformWrapper[];
 }
 
 ///////////////////// Game Detail ////////////////

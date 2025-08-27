@@ -1,8 +1,8 @@
-import { Component,input, inject } from '@angular/core';
+import { Component, input, inject, computed, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { Game } from '../models/game.interface';
+import { Game, Platform, PlatformResponse, PlatformWrapper } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
 
 @Component({
@@ -28,7 +28,7 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Informazioni</h3>
             <ul class="space-y-3 text-sm">
               <li><strong>Data rilascio:</strong> {{ game().released }}</li>
-              <li><app-rating-star [rating]="game().rating" /></li> 
+              <li><app-rating-star [rating]="game().rating" /></li>
               <li><strong>Metacritic:</strong><span class="ms-2 badge badge-warning badge-xs lg:badge-md">{{ game().metacritic || 'N/A' }}</span></li>
               <li><strong>Tempo di gioco:</strong> {{ game().playtime }} ore</li>
               <li><strong>Recensioni:</strong> {{ game().ratings_count }}</li>
@@ -45,9 +45,19 @@ import { RatingStarComponent } from "./rating-star.component";
 
             <h3 class="text-lg font-semibold mb-2">Piattaforme</h3>
             <div class="flex flex-wrap gap-2">
-              @for (platform of game().platforms.slice(0, 10); track platform.platform.id) {
-                <span class="badge badge-outline">{{ platform.platform.name }}</span>
-              }
+              @for (parent of game().parent_platforms; track parent.platform.id) {
+                  <a class="tooltip tooltip-hover tooltip-bottom" [attr.data-tip]="parent.platform.name">
+                    <img
+                      [src]="platformIcon(parent.platform.name)"
+                      [alt]="parent.platform.name"
+                      class="w-6 h-6 me-1"
+                      loading="lazy"
+                    />
+                  </a>
+                }
+                <!-- @for (parent of game().platforms ; track parent.platform.id) {
+                <img [src]="parent.platform.image_background">
+                } -->
             </div>
           </div>
         </div>
@@ -55,7 +65,7 @@ import { RatingStarComponent } from "./rating-star.component";
         @if (game()?.description) {
           <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2">Descrizione</h3>
-            <div 
+            <div
               class="text-sm leading-relaxed prose prose-sm max-w-none"
               [innerHTML]="game().description"
             ></div>
@@ -82,8 +92,25 @@ export class CardDetailComponent{
   game = input.required<Game>();
 
   readonly apiService = inject(ApiService);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
+
+  private readonly platformIconMap = new Map([
+
+    ['PlayStation', 'assets/platforms/playstation.svg'],
+    ['Xbox', 'assets/platforms/xbox.svg'],
+    ['Nintendo', 'assets/platforms/nintendo.svg'],
+    ['PC', 'assets/platforms/windows.svg'],
+    ['Apple Macintosh', 'assets/platforms/mac.svg'],
+    ['Linux', 'assets/platforms/linux.svg'],
+    ['Steam', 'assets/platforms/steam.svg'],
+    ['Epic Games Store', 'assets/platforms/epic.svg'],
+    ['Web', 'assets/platforms/web.svg'],
+    ['iOS', 'assets/platforms/ios.svg'],
+    ['Android', 'assets/platforms/android.svg']
+  ]);
+
+  platformIcon = (platformName: string) => {
+  return this.platformIconMap.get(platformName) || null;
+};
 
   isNewGame(): boolean {
     const game = this.apiService.gameDetail();
