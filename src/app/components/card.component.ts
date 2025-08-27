@@ -48,7 +48,7 @@ import { RouterLink } from '@angular/router';
               <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
-              <span>Rilasciato: {{ game().released }}</span>
+              <span>Rilasciato: {{ game().released | date:'dd-MM-yyyy' }}</span>
             </li>
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" class="size-4 me-2 inline-block text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">

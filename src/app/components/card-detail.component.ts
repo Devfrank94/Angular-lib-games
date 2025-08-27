@@ -1,8 +1,7 @@
-import { Component, input, inject, computed, Input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { Game, Platform, PlatformResponse, PlatformWrapper } from '../models/game.interface';
+import { Game } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
 
 @Component({
@@ -27,7 +26,7 @@ import { RatingStarComponent } from "./rating-star.component";
           <div>
             <h3 class="text-lg font-semibold mb-2">Informazioni</h3>
             <ul class="space-y-3 text-sm">
-              <li><strong>Data rilascio:</strong> {{ game().released }}</li>
+              <li><strong>Data rilascio:</strong> {{ game().released | date:'dd-MM-yyyy' }}</li>
               <li><app-rating-star [rating]="game().rating" /></li>
               <li><strong>Metacritic:</strong><span class="ms-2 badge badge-warning badge-xs lg:badge-md">{{ game().metacritic || 'N/A' }}</span></li>
               <li><strong>Tempo di gioco:</strong> {{ game().playtime }} ore</li>
