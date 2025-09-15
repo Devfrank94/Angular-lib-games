@@ -7,7 +7,8 @@ import { Game } from '../models/game.interface';
   imports: [CommonModule],
   template: `
     @if (game()?.added_by_status; as stats) {
-      <div class="stats bg-accent text-white stats-vertical md:stats-horizontal shadow-md">
+      <!-- TODO: sistemare stats -->
+      <div class="stats bg-accent text-white stats-vertical lg:stats-horizontal shadow-md">
         <div class="stat place-items-center">
           <div class="stat-title text-white">Non Acquistato</div>
           <div class="stat-value">{{ stats.yet }}</div>
