@@ -22,6 +22,7 @@ export interface GameDetail extends Game {
   description?: string;
   description_raw?: string;
   website?: string;
+  added_by_status?: AddedByStatus[];
   achievements_count?: number;
   reddit_url?: string;
   reddit_count?: number;
@@ -34,6 +35,15 @@ export interface GameDetail extends Game {
   tags?: Tag[];
   screenshots?: Screenshot[];
   stores?: Store[];
+}
+
+export interface AddedByStatus {
+  yet: number;
+  owned: number;
+  beaten: number;
+  toplay: number;
+  dropped: number;
+  playing: number;
 }
 
 export interface Publisher {

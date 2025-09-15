@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
 import { Game, GameDetail } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
+import { StatusStatsComponent } from "./status-stats.component";
 
 @Component({
   selector: 'app-card-detail',
-  imports: [CommonModule, RatingStarComponent],
+  imports: [CommonModule, RatingStarComponent, StatusStatsComponent],
   template: `
     <div class="card bg-base-300 shadow-xl">
       <figure>
@@ -40,7 +41,7 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Generi</h3>
             <div class="flex flex-wrap gap-2 mb-4">
               @for (genre of game().genres; track genre.id) {
-                <span class="badge sm:badge-lg badge-accent">{{ genre.name }}</span>
+                <span class="badge text-white sm:badge-lg badge-accent">{{ genre.name }}</span>
               }
             </div>
 
@@ -64,6 +65,7 @@ import { RatingStarComponent } from "./rating-star.component";
                 }
               </div>
             </div>
+            <app-status-stats [game]="game()" />
           </div>
 
         @if (game()?.description) {
@@ -81,7 +83,7 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Sviluppatori</h3>
             <div class="flex flex-wrap gap-2">
               @for (dev of game().developers; track dev.id) {
-                <span class="badge sm:badge-lg badge-accent">{{ dev.name }}</span>
+                <span class="badge text-white sm:badge-lg badge-accent">{{ dev.name }}</span>
               }
             </div>
           </div>
@@ -92,7 +94,7 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Publisher</h3>
             <div class="flex flex-wrap gap-2">
               @for (pub of game().publishers; track pub.id) {
-                <span class="badge sm:badge-lg badge-accent">{{ pub.name }}</span>
+                <span class="badge text-white sm:badge-lg badge-accent">{{ pub.name }}</span>
               }
             </div>
           </div>
