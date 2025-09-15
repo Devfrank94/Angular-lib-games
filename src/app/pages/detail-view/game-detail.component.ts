@@ -22,7 +22,7 @@ import { Title } from '@angular/platform-browser';
       } @else if (apiService.gameDetail()) {
           <div class="p-2 shadow-xl">
             <button
-              class="btn btn-accent btn-md sm:btn-lg mb-3" (click)="goBack()">
+              class="btn btn-accent text-white text-md btn-md sm:btn-lg mb-3" (click)="goBack()">
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -53,7 +53,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     effect(() => {
       const game = this.apiService.gameDetail();
       const loading = this.apiService.gameDetailLoading();
-      
+
       if (loading) {
         this.titleService.setTitle('Caricamento... - Games Library');
       } else if (game?.name) {

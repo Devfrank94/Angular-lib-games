@@ -40,18 +40,18 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Generi</h3>
             <div class="flex flex-wrap gap-2 mb-4">
               @for (genre of game().genres; track genre.id) {
-                <span class="badge badge-accent">{{ genre.name }}</span>
+                <span class="badge sm:badge-lg badge-accent">{{ genre.name }}</span>
               }
             </div>
 
             <h3 class="text-lg font-semibold mb-2">Piattaforme</h3>
-            <div class="flex flex-wrap gap-2 w-fit bg-accent py-2 px-4 rounded-full">
+            <div class="flex flex-wrap gap-3 w-fit bg-accent py-2 px-3 sm:py-2 sm:px-4 rounded-full">
               @for (parent of game().parent_platforms; track parent.platform.id) {
                 <a class="tooltip tooltip-hover tooltip-bottom" [attr.data-tip]="parent.platform.name">
                     <img
                       [src]="platformIcon(parent.platform.name)"
                       [alt]="parent.platform.name"
-                      class="w-6 h-6 me-1"
+                      class="w-4 h-4 sm:w-5 sm:h-5"
                       loading="lazy"
                     />
                   </a>
@@ -67,7 +67,7 @@ import { RatingStarComponent } from "./rating-star.component";
           <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2">Descrizione</h3>
             <div
-              class="text-sm leading-relaxed prose prose-sm max-w-none"
+              class="text-md leading-relaxed prose prose-sm max-w-none"
               [innerHTML]="game().description"
             ></div>
           </div>
@@ -78,7 +78,7 @@ import { RatingStarComponent } from "./rating-star.component";
             <h3 class="text-lg font-semibold mb-2">Sviluppatori</h3>
             <div class="flex flex-wrap gap-2">
               @for (dev of game().developers; track dev.id) {
-                <span class="badge badge-accent">{{ dev.name }}</span>
+                <span class="badge sm:badge-lg badge-accent">{{ dev.name }}</span>
               }
             </div>
           </div>
