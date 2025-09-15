@@ -25,7 +25,7 @@ import { RatingStarComponent } from "./rating-star.component";
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <h3 class="text-lg font-semibold mb-2">Informazioni</h3>
-            <!-- <pre><code>{{ game().updated | json }}</code></pre> -->
+            <!-- <pre><code>{{ game() | json }}</code></pre> -->
             <ul class="space-y-3 text-md">
               <li><strong>Data rilascio:</strong> {{ game().released | date:'dd-MM-yyyy' }}</li>
               <li><strong>Data ultimo aggiornamento:</strong> {{ game()?.updated || 'N/A' | date:'dd-MM-yyyy' }}</li>
@@ -45,7 +45,7 @@ import { RatingStarComponent } from "./rating-star.component";
             </div>
 
             <h3 class="text-lg font-semibold mb-2">Piattaforme</h3>
-            <div class="flex flex-wrap gap-3 w-fit bg-accent py-2 px-3 sm:py-2 sm:px-4 rounded-full">
+            <div class="flex flex-wrap gap-3 mb-3 w-fit bg-accent py-2 px-3 sm:py-2 sm:px-4 rounded-full">
               @for (parent of game().parent_platforms; track parent.platform.id) {
                 <a class="tooltip tooltip-hover tooltip-bottom" [attr.data-tip]="parent.platform.name">
                     <img
@@ -56,12 +56,15 @@ import { RatingStarComponent } from "./rating-star.component";
                     />
                   </a>
                 }
-                <!-- @for (parent of game().platforms ; track parent.platform.id) {
-                <img [src]="parent.platform.image_background">
-                } -->
+              </div>
+              <div>
+                @if (game()?.website) {
+                  <h3 class="text-lg font-semibold mb-2">Sito web</h3>
+                  <a [href]="game().website" target="_blank" class="link link-hover link-accent">{{ game().website }}</a>
+                }
+              </div>
             </div>
           </div>
-        </div>
 
         @if (game()?.description) {
           <div class="mt-6">
@@ -83,6 +86,18 @@ import { RatingStarComponent } from "./rating-star.component";
             </div>
           </div>
         }
+
+        @if (game()?.publishers && game()?.publishers.length > 0) {
+          <div class="mt-4">
+            <h3 class="text-lg font-semibold mb-2">Publisher</h3>
+            <div class="flex flex-wrap gap-2">
+              @for (pub of game().publishers; track pub.id) {
+                <span class="badge sm:badge-lg badge-accent">{{ pub.name }}</span>
+              }
+            </div>
+          </div>
+        }
+
       </div>
     </div>
   `,
