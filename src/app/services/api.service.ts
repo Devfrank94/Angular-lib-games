@@ -11,7 +11,9 @@ import {
     Platform,
     Creator,
     Developer,
-    GameDetail
+    GameDetail,
+    Screenshot,
+    ScreenshotResponse
 } from "../models/game.interface";
 
 @Injectable({
@@ -31,6 +33,11 @@ export class ApiService {
     gameDetail = signal<GameDetail | null>(null);
     gameDetailLoading = signal(false);
     gameDetailError = signal(false);
+
+    // Screenshots
+    screenshots = signal<Screenshot[] | null>(null);
+    screenshotsLoading = signal(false);
+    screenshotsError = signal(false);
 
     // Platforms
     platforms = signal<Platform[] | null>(null);
@@ -100,7 +107,7 @@ export class ApiService {
             this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
             // TODO:rimuovi consolo.log
-            // console.log('Gioco Caricato ---->:', res);
+            console.log('Gioco Caricato ---->:', res);
           },
           error: () => {
             this.gameDetail.set(null);
@@ -108,6 +115,27 @@ export class ApiService {
             this.gameDetailLoading.set(false);
           }
         });
+    }
+
+    getGameScreenshots(gameId: number): void {
+        this.screenshotsLoading.set(true);
+        this.screenshotsError.set(false);
+
+        const params = new HttpParams().set("key", this.apiKey);
+
+        this.http
+            .get<ScreenshotResponse>(`${this.baseUrl}/games/${gameId}/screenshots`, { params })
+            .subscribe({
+                next: (res) => {
+                    this.screenshots.set(res.results ?? []);
+                    this.screenshotsLoading.set(false);
+                },
+                error: () => {
+                    this.screenshots.set([]);
+                    this.screenshotsError.set(true);
+                    this.screenshotsLoading.set(false);
+                },
+            });
     }
 
     getPlatforms(page: number = 1): void {
