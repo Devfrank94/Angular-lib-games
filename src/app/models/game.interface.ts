@@ -64,6 +64,9 @@ export interface Tag {
 export interface Screenshot {
   id: number;
   image: string;
+  width: number;
+  height: number;
+  is_deleted: boolean;
 }
 
 export interface Store {
@@ -125,6 +128,13 @@ export interface GameResponse {
   next: string | null;
   previous: string | null;
   results: Game[] | null;
+}
+
+export interface ScreenshotResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Screenshot[];
 }
 
 export interface PlatformResponse {
