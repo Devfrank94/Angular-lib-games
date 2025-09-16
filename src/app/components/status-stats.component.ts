@@ -9,11 +9,11 @@ import { Game } from '../models/game.interface';
         @if (game()?.added_by_status; as stats) {
         <h3 class="text-lg text-center font-semibold mb-2">Statistiche</h3>
         <div class="glass p-1 sm:p-2 rounded-xl">
-          <div class="flex flex-col min-[1130px]:flex-row bg-accent text-white shadow-md rounded-lg">
+          <div class="flex flex-col min-[1200px]:flex-row bg-accent text-white shadow-md rounded-lg">
             <div class="grid place-items-center py-2 px-4">
                 <div class="text-white">Non Acquistato</div>
                 <div class="flex">
-                  <div class="text-4xl font-semibold">{{ stats.yet }}</div>
+                <div class="text-3xl md:text-4xl font-semibold">{{ stats.yet }}</div>
                 <div class="stat-figure ms-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -33,11 +33,11 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Giochi nella wishlist</div>
               </div>
-              <div class="divider w-full min-[1130px]:divider-horizontal mx-0 max-[1130px]:my-0"></div>
+              <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
             <div class="grid place-items-center py-2 px-4">
                 <div class="text-white">Posseduto</div>
                 <div class="flex">
-                  <div class="text-4xl font-semibold">{{ stats.owned }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.owned }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -56,11 +56,11 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Nella libreria</div>
             </div>
-            <div class="divider w-full min-[1130px]:divider-horizontal mx-0 max-[1130px]:my-0"></div>
+            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
               <div class="grid place-items-center py-2 px-4">
                   <div class="text-white">Completato</div>
                   <div class="flex">
-                    <div class="text-4xl font-semibold">{{ stats.beaten }}</div>
+                    <div class="text-3xl md:text-4xl font-semibold">{{ stats.beaten }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -79,11 +79,11 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Finiti al 100%</div>
             </div>
-            <div class="divider w-full min-[1130px]:divider-horizontal mx-0 max-[1130px]:my-0"></div>
+            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
             <div class="grid place-items-center py-2 px-4">
                 <div class="text-white">Da Giocare</div>
                 <div class="flex">
-                  <div class="text-4xl font-semibold">{{ stats.toplay }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.toplay }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -102,11 +102,11 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Nei preferiti</div>
             </div>
-            <div class="divider w-full min-[1130px]:divider-horizontal mx-0 max-[1130px]:my-0"></div>
+            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
             <div class="grid place-items-center py-2 px-4">
                 <div class="text-white">In Corso</div>
                 <div class="flex">
-                  <div class="text-4xl font-semibold">{{ stats.playing }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.playing }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -125,11 +125,11 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Attualmente attivi</div>
             </div>
-            <div class="divider w-full min-[1130px]:divider-horizontal mx-0 max-[1130px]:my-0"></div>
+            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
             <div class="grid place-items-center py-2 px-4">
                 <div class="text-white">Abbandonato</div>
                 <div class="flex">
-                  <div class="text-4xl font-semibold">{{ stats.dropped }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.dropped }}</div>
                 <div class="stat-figure ms-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
