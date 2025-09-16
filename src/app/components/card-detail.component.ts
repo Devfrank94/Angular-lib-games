@@ -19,7 +19,7 @@ import { StatusStatsComponent } from "./status-stats.component";
           loading="lazy" />
       </figure>
       <div class="card-body">
-        <h1 class="card-title text-3xl">{{ game().name }}
+        <h1 class="card-title md:text-3xl">{{ game().name }}
         <span *ngIf="isNewGame()" data-theme="light" class="ms-2 badge badge-secondary">NEW</span>
         </h1>
 
@@ -61,10 +61,14 @@ import { StatusStatsComponent } from "./status-stats.component";
               <div>
                 @if (game()?.website) {
                   <h3 class="text-lg font-semibold mb-2">Sito web</h3>
-                  <a [href]="game().website" target="_blank" class="link link-hover link-accent">{{ game().website }}</a>
+                  <a [href]="game().website" target="_blank" class="link link-hover link-accent"><p class="truncate">{{ game().website }}</p></a>
                 }
               </div>
             </div>
+          </div>
+
+          <!-- Statistiche -->
+          <div class="flex justify-center my-4">
             <app-status-stats [game]="game()" />
           </div>
 
