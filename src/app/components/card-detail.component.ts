@@ -4,10 +4,14 @@ import { ApiService } from '../services/api.service';
 import { Game, GameDetail } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
 import { StatusStatsComponent } from "./status-stats.component";
+import { GameScreenshotsComponent } from "./game-screenshots.component";
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-card-detail',
-  imports: [CommonModule, RatingStarComponent, StatusStatsComponent],
+  imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent],
   template: `
     <div class="card bg-base-300 shadow-xl">
       <figure>
@@ -26,7 +30,6 @@ import { StatusStatsComponent } from "./status-stats.component";
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <h3 class="text-lg font-semibold mb-2">Informazioni</h3>
-            <!-- <pre><code>{{ game() | json }}</code></pre> -->
             <ul class="space-y-3 text-md">
               <li><strong>Data rilascio:</strong> {{ game().released | date:'dd-MM-yyyy' }}</li>
               <li><strong>Data ultimo aggiornamento:</strong> {{ game()?.updated || 'N/A' | date:'dd-MM-yyyy' }}</li>
@@ -70,6 +73,11 @@ import { StatusStatsComponent } from "./status-stats.component";
           <!-- Statistiche -->
           <div class="flex justify-center my-4">
             <app-status-stats [game]="game()" />
+          </div>
+
+          <div class="flex my-4">
+            <!-- <pre><code>{{ game() | json }}</code></pre> -->
+            <app-game-screenshots [gameId]="game().id" />
           </div>
 
         @if (game()?.description) {
@@ -133,6 +141,7 @@ export class CardDetailComponent{
   platformIcon = (platformName: string) => {
   return this.platformIconMap.get(platformName) || null;
 };
+selectedGameId: any;
 
   isNewGame(): boolean {
     const game = this.apiService.gameDetail();
@@ -142,6 +151,11 @@ export class CardDetailComponent{
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
     return releaseDate > threeMonthsAgo;
   }
+
+  private route = inject(ActivatedRoute);
+  gameId = toSignal(this.route.params.pipe(
+    map(params => +params['id'])
+  ));
 
   handleImageError(event: Event) {
     (event.target as HTMLImageElement).src = '/assets/placeholder-img-games.png';
