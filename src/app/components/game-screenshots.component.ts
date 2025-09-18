@@ -56,8 +56,8 @@ import { LoadingComponent } from "./loading.component";
     <!-- Modal per screenshot fullscreen -->
     @if (selectedScreenshot(); as screenshot) {
       <dialog class="modal modal-open">
-        <div class="modal-box max-w-4xl">
-          <button class="btn btn-sm btn-circle absolute right-2 top-2"
+        <div class="modal-box w-11/12 max-w-5xl">
+          <button class="btn btn-sm btn-circle absolute right-1 top-1"
                   (click)="closeModal()">✕</button>
           <img [src]="screenshot.image"
                class="w-full h-auto"
