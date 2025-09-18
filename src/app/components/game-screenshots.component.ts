@@ -1,31 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, inject, computed, effect, signal } from '@angular/core';
+import { Component, input, inject, computed, effect, signal, OnInit } from '@angular/core';
 import { Screenshot } from '../models/game.interface';
 import { ApiService } from '../services/api.service';
+import { LoadingComponent } from "./loading.component";
 
 @Component({
   selector: 'app-game-screenshots',
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   template: `
     @if (gameDetail(); as game) {
       @if (game.screenshots_count > 0) {
         <div class="mt-6">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
-            @if (!screenshotsLoaded()) {
-              <button
-                class="btn btn-primary"
-                (click)="loadScreenshots()"
-                [disabled]="screenshotsLoading()">
-                @if (screenshotsLoading()) {
-                  <span class="loading loading-spinner loading-sm"></span>
-                  Loading...
-                }
-                @else {
-                  Carica Screenshot
-                }
-              </button>
-            }
           </div>
 
           <!-- Screenshots Grid -->
@@ -47,9 +34,9 @@ import { ApiService } from '../services/api.service';
           }
 
           <!-- Error State -->
-          @if (!screenshotsError()) {
+          @if (screenshotsError()) {
             <div class="alert alert-error flex-center-center">
-              <span>Errore nel caricamento degli screenshot</span>
+              <div><p class="text-lg text-white">Errore nel caricamento degli screenshot</p></div>
               <button class="btn btn-sm" (click)="loadScreenshots()">
                 Riprova
               </button>
@@ -62,7 +49,7 @@ import { ApiService } from '../services/api.service';
     <!-- Loading State -->
     @if (gameDetailLoading()) {
       <div class="flex justify-center p-8">
-        <span class="loading loading-spinner loading-lg"></span>
+        <app-loading/>
       </div>
     }
 
@@ -83,7 +70,7 @@ import { ApiService } from '../services/api.service';
     }
   `,
 })
-export class GameScreenshotsComponent {
+export class GameScreenshotsComponent implements OnInit {
 
   private apiService = inject(ApiService);
 
@@ -104,6 +91,9 @@ export class GameScreenshotsComponent {
     effect(() => {
       this.apiService.screenshots.set(null);
     });
+  }
+  ngOnInit(): void {
+    this.loadScreenshots();
   }
 
   loadScreenshots(): void {

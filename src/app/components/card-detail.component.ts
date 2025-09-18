@@ -82,7 +82,8 @@ import { map } from 'rxjs';
 
         @if (game()?.description) {
           <div class="mt-6">
-            <h3 class="text-lg font-semibold mb-2">Descrizione</h3>
+            <h3 class="text-lg font-semibold">Descrizione</h3>
+            <p class="mb-2 text-xs truncate">(Le descrizioni potrebbero essere in lingua straniera)</p>
             <div
               class="text-md leading-relaxed prose prose-sm max-w-none"
               [innerHTML]="game().description"
