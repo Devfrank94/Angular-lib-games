@@ -8,9 +8,10 @@ import { Game } from '../models/game.interface';
     template: `
         @if (game()?.added_by_status; as stats) {
         <h3 class="text-lg text-center font-semibold mb-2">Statistiche</h3>
-        <div class="glass p-1 sm:p-2 rounded-xl">
-          <div class="flex flex-col min-[1200px]:flex-row bg-accent text-white shadow-md rounded-lg">
-            <div class="grid place-items-center py-2 px-4">
+        <div class="glass p-2 rounded-xl">
+          <!-- flex-col min-[1200px]:flex-row -->
+          <div class="flex flex-wrap bg-accent text-white shadow-md rounded-lg">
+            <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Non Acquistato</div>
                 <div class="flex">
                 <div class="text-3xl md:text-4xl font-semibold">{{ stats.yet }}</div>
@@ -33,8 +34,8 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Giochi nella wishlist</div>
               </div>
-              <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
-            <div class="grid place-items-center py-2 px-4">
+              <div class="divider min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
+            <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Posseduto</div>
                 <div class="flex">
                   <div class="text-3xl md:text-4xl font-semibold">{{ stats.owned }}</div>
@@ -56,8 +57,8 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Nella libreria</div>
             </div>
-            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
-              <div class="grid place-items-center py-2 px-4">
+            <div class="divider min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
+              <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                   <div class="text-white">Completato</div>
                   <div class="flex">
                     <div class="text-3xl md:text-4xl font-semibold">{{ stats.beaten }}</div>
@@ -79,8 +80,8 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Finiti al 100%</div>
             </div>
-            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
-            <div class="grid place-items-center py-2 px-4">
+            <div class="divider min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
+            <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Da Giocare</div>
                 <div class="flex">
                   <div class="text-3xl md:text-4xl font-semibold">{{ stats.toplay }}</div>
@@ -102,8 +103,8 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Nei preferiti</div>
             </div>
-            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
-            <div class="grid place-items-center py-2 px-4">
+            <div class="divider min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
+            <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">In Corso</div>
                 <div class="flex">
                   <div class="text-3xl md:text-4xl font-semibold">{{ stats.playing }}</div>
@@ -125,8 +126,8 @@ import { Game } from '../models/game.interface';
                 </div>
                 <div class="stat-desc text-white">Attualmente attivi</div>
             </div>
-            <div class="divider w-full min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
-            <div class="grid place-items-center py-2 px-4">
+            <div class="divider min-[1200px]:divider-horizontal mx-0 max-[1200px]:my-0"></div>
+            <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Abbandonato</div>
                 <div class="flex">
                   <div class="text-3xl md:text-4xl font-semibold">{{ stats.dropped }}</div>

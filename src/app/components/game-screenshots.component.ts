@@ -1,113 +1,133 @@
-import { CommonModule } from '@angular/common';
-import { Component, input, inject, computed, effect, signal, OnInit } from '@angular/core';
-import { Screenshot } from '../models/game.interface';
-import { ApiService } from '../services/api.service';
+import { CommonModule } from "@angular/common";
+import {
+    Component,
+    input,
+    inject,
+    computed,
+    effect,
+    signal,
+    OnInit,
+} from "@angular/core";
+import { Screenshot } from "../models/game.interface";
+import { ApiService } from "../services/api.service";
 import { LoadingComponent } from "./loading.component";
 
 @Component({
-  selector: 'app-game-screenshots',
-  imports: [CommonModule, LoadingComponent],
-  template: `
-    @if (gameDetail(); as game) {
-      @if (game.screenshots_count > 0) {
+    selector: "app-game-screenshots",
+    imports: [CommonModule, LoadingComponent],
+    template: `
+        @if (gameDetail(); as game) { @if (game.screenshots_count > 0) {
         <div class="mt-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
-          </div>
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
+            </div>
 
-          <!-- Screenshots Grid -->
-          @if (screenshots(); as screenList) {
-            <div class="rounded-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3">
-              @for (screenshot of screenList; track screenshot.id) {
+            <!-- Screenshots Grid -->
+            @if (screenshots(); as screenList) {
+            <div
+                class="rounded-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3"
+            >
+                @for (screenshot of screenList; track screenshot.id) {
                 <div class="shadow-xl">
-                  <figure>
-                    <img
-                      [src]="screenshot.image"
-                      [alt]="'Screenshot ' + screenshot.id"
-                      class="w-full rounded-lg object-contain hover:scale-110 transition-transform cursor-pointer"
-                      (click)="openModal(screenshot)"
-                      loading="lazy">
-                  </figure>
+                    <figure>
+                        <img
+                            [src]="screenshot.image"
+                            [alt]="'Screenshot ' + screenshot.id"
+                            class="w-full rounded-lg object-contain hover:scale-110 transition-transform cursor-pointer"
+                            (click)="openModal(screenshot)"
+                            loading="lazy"
+                        />
+                    </figure>
                 </div>
-              }
+                }
             </div>
-          }
+            }
 
-          <!-- Error State -->
-          @if (screenshotsError()) {
+            <!-- Error State -->
+            @if (screenshotsError()) {
             <div class="alert alert-error flex-center-center">
-              <div><p class="text-lg text-white">Errore nel caricamento degli screenshot</p></div>
-              <button class="btn btn-sm" (click)="loadScreenshots()">
-                Riprova
-              </button>
+                <div>
+                    <p class="text-lg text-white">
+                        Errore nel caricamento degli screenshot
+                    </p>
+                </div>
+                <button class="btn btn-sm" (click)="loadScreenshots()">
+                    Riprova
+                </button>
             </div>
-          }
+            }
         </div>
-      }
-    }
+        } }
 
-    <!-- Loading State -->
-    @if (gameDetailLoading()) {
-      <div class="flex justify-center p-8">
-        <app-loading/>
-      </div>
-    }
-
-    <!-- Modal per screenshot fullscreen -->
-    @if (selectedScreenshot(); as screenshot) {
-      <dialog class="modal modal-open">
-        <div class="modal-box w-11/12 max-w-5xl">
-          <button class="btn btn-sm btn-circle absolute right-1 top-1"
-                  (click)="closeModal()">✕</button>
-          <img [src]="screenshot.image"
-               class="w-full h-auto"
-               [alt]="'Screenshot ' + screenshot.id">
+        <!-- Loading State -->
+        @if (gameDetailLoading()) {
+        <div class="flex justify-center p-8">
+            <app-loading />
         </div>
-        <form method="dialog" class="modal-backdrop" (click)="closeModal()">
-          <button>close</button>
-        </form>
-      </dialog>
-    }
-  `,
+        }
+
+        <!-- Modal per screenshot fullscreen -->
+        @if (selectedScreenshot(); as screenshot) {
+        <dialog class="modal modal-open">
+            <div class="modal-box w-11/12 max-w-5xl">
+                <button
+                    class="btn btn-sm btn-circle absolute right-1 top-1"
+                    (click)="closeModal()"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </button>
+                <img
+                    [src]="screenshot.image"
+                    class="w-full h-auto"
+                    [alt]="'Screenshot ' + screenshot.id"
+                />
+            </div>
+            <form method="dialog" class="modal-backdrop" (click)="closeModal()">
+                <button>close</button>
+            </form>
+        </dialog>
+        }
+    `,
 })
 export class GameScreenshotsComponent implements OnInit {
+    private apiService = inject(ApiService);
 
-  private apiService = inject(ApiService);
+    gameId = input.required<number>();
 
-  gameId = input.required<number>();
+    // Signals dal service
+    gameDetail = this.apiService.gameDetail;
+    gameDetailLoading = this.apiService.gameDetailLoading;
+    screenshots = this.apiService.screenshots;
+    screenshotsLoading = this.apiService.screenshotsLoading;
+    screenshotsError = this.apiService.screenshotsError;
 
-  // Signals dal service
-  gameDetail = this.apiService.gameDetail;
-  gameDetailLoading = this.apiService.gameDetailLoading;
-  screenshots = this.apiService.screenshots;
-  screenshotsLoading = this.apiService.screenshotsLoading;
-  screenshotsError = this.apiService.screenshotsError;
+    selectedScreenshot = signal<Screenshot | null>(null);
 
-  selectedScreenshot = signal<Screenshot | null>(null);
+    screenshotsLoaded = computed(() => this.screenshots() !== null);
 
-  screenshotsLoaded = computed(() => this.screenshots() !== null);
-
-  constructor() {
-    effect(() => {
-      this.apiService.screenshots.set(null);
-    });
-  }
-  ngOnInit(): void {
-    this.loadScreenshots();
-  }
-
-  loadScreenshots(): void {
-    const id = this.gameId();
-    if (id) {
-      this.apiService.getGameScreenshots(id);
+    constructor() {
+        effect(() => {
+            this.apiService.screenshots.set(null);
+        });
     }
-  }
+    ngOnInit(): void {
+        this.loadScreenshots();
+    }
 
-  openModal(screenshot: Screenshot): void {
-    this.selectedScreenshot.set(screenshot);
-  }
+    loadScreenshots(): void {
+        const id = this.gameId();
+        if (id) {
+            this.apiService.getGameScreenshots(id);
+        }
+    }
 
-  closeModal(): void {
-    this.selectedScreenshot.set(null);
-  }
+    openModal(screenshot: Screenshot): void {
+        this.selectedScreenshot.set(screenshot);
+    }
+
+    closeModal(): void {
+        this.selectedScreenshot.set(null);
+    }
 }
