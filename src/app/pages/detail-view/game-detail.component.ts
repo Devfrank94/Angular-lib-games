@@ -20,7 +20,7 @@ import { Title } from '@angular/platform-browser';
       } @else if (apiService.gameDetailError()) {
         <app-error-generic />
       } @else if (apiService.gameDetail()) {
-          <div class="p-2 shadow-xl">
+          <div class="p-2">
             <button
               class="btn btn-accent text-white text-md btn-md sm:btn-lg mb-3" (click)="goBack()">
               <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,8 +31,8 @@ import { Title } from '@angular/platform-browser';
             </button>
 
             @if (apiService.gameDetail(); as game) {
-              <div class="container mx-auto">
-                <app-card-detail [game]="game" />
+              <div class="mx-auto">
+                  <app-card-detail [game]="game" />
               </div>
             }
           </div>
