@@ -13,16 +13,27 @@ import { map } from 'rxjs';
   selector: 'app-card-detail',
   imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent],
   template: `
-    <div class="card bg-base-300 shadow-xl">
-      <figure>
-        <img
-          [src]="game().background_image"
-          (error)="handleImageError($event)"
-          [alt]="game().name"
-          class="w-full object-cover"
-          loading="lazy" />
-      </figure>
-      <div class="card-body">
+    <div class="card bg-base-300 shadow-xl rounded-lg">
+      <!-- <div class="hidden lg:block p-5">
+        <div class="flex-center-center min-h-[300px] shadow-xl rounded-lg ">
+          <h1 class="text-[10rem] w-full font-extrabold text-center bg-no-repeat bg-center bg-clip-text text-transparent"
+              [style.background-image]="'url(' + game().background_image + ')'">
+            {{ game().name }}
+          </h1>
+        </div>
+      </div> -->
+      <div>
+        <!-- TODO:fix background image -->
+        <figure>
+          <img
+            [src]="game().background_image"
+            (error)="handleImageError($event)"
+            [alt]="game().name"
+            class="w-full object-cover rounded-t-lg max-h-300 mask-b-from-40% mask-b-to-90%"
+            loading="lazy" />
+        </figure>
+      </div>
+      <div class="card-body p-5 lg:p-8">
         <h1 class="card-title md:text-3xl">{{ game().name }}
         <span *ngIf="isNewGame()" data-theme="light" class="ms-2 badge badge-secondary">NEW</span>
         </h1>
