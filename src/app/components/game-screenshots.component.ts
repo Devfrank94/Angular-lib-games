@@ -25,7 +25,7 @@ import { LoadingComponent } from "./loading.component";
             <!-- Screenshots Grid -->
             @if (screenshots(); as screenList) {
             <div
-                class="rounded-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3"
+                class="rounded-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3"
             >
                 @for (screenshot of screenList; track screenshot.id) {
                 <div class="shadow-xl">
@@ -33,7 +33,7 @@ import { LoadingComponent } from "./loading.component";
                         <img
                             [src]="screenshot.image"
                             [alt]="'Screenshot ' + screenshot.id"
-                            class="w-full rounded-lg object-contain hover:scale-110 transition-transform cursor-pointer"
+                            class="w-full rounded-lg object-contain hover:scale-105 transition-transform cursor-pointer"
                             (click)="openModal(screenshot)"
                             loading="lazy"
                         />
