@@ -14,16 +14,7 @@ import { map } from 'rxjs';
   imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent],
   template: `
     <div class="card bg-base-300 shadow-xl rounded-lg">
-      <!-- <div class="hidden lg:block p-5">
-        <div class="flex-center-center min-h-[300px] shadow-xl rounded-lg ">
-          <h1 class="text-[10rem] w-full font-extrabold text-center bg-no-repeat bg-center bg-clip-text text-transparent"
-              [style.background-image]="'url(' + game().background_image + ')'">
-            {{ game().name }}
-          </h1>
-        </div>
-      </div> -->
       <div>
-        <!-- TODO:fix background image -->
         <figure>
           <img
             [src]="game().background_image"
