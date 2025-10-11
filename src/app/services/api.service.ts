@@ -13,7 +13,9 @@ import {
     Developer,
     GameDetail,
     Screenshot,
-    ScreenshotResponse
+    ScreenshotResponse,
+    GameMovie,
+    MoviesResponse
 } from "../models/game.interface";
 
 @Injectable({
@@ -38,6 +40,11 @@ export class ApiService {
     screenshots = signal<Screenshot[] | null>(null);
     screenshotsLoading = signal(false);
     screenshotsError = signal(false);
+
+    // Movies
+    movies = signal<GameMovie[] | null>(null);
+  moviesLoading = signal(false);
+  moviesError = signal(false);
 
     // Platforms
     platforms = signal<Platform[] | null>(null);
@@ -106,8 +113,8 @@ export class ApiService {
           next: (res) => {
             this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
-            // TODO:rimuovi consolo.log
-            console.log('Gioco Caricato ---->:', res);
+            // TODO:rimuovi console.log
+            // console.log('Gioco Caricato ---->:', res);
           },
           error: () => {
             this.gameDetail.set(null);
@@ -138,6 +145,28 @@ export class ApiService {
             });
     }
 
+    getGameMovies(gameId: number): void {
+    this.moviesLoading.set(true);
+    this.moviesError.set(false);
+
+    const params = new HttpParams().set('key', this.apiKey);
+
+    this.http
+      .get<MoviesResponse>(`${this.baseUrl}/games/${gameId}/movies`, { params })
+      .subscribe({
+        next: (res) => {
+          this.movies.set(res.results ?? null);
+          this.moviesLoading.set(false);
+          // console.log('Trailer Disponibile ---->:', res);
+        },
+        error: () => {
+          this.movies.set(null);
+          this.moviesError.set(true);
+          this.moviesLoading.set(false);
+        },
+      });
+  }
+
     getPlatforms(page: number = 1): void {
         this.platformsLoading.set(true);
         this.platformsError.set(false);
@@ -154,9 +183,9 @@ export class ApiService {
                     page === 1
                         ? this.platforms.set(res.results)
                         : this.platforms.update((current) =>
-                              current
-                                  ? [...current, ...res.results]
-                                  : res.results
+                            current
+                                ? [...current, ...res.results]
+                                : res.results
                           );
                     this.platformsLoading.set(false);
                 },
