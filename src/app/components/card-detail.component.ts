@@ -1,7 +1,7 @@
 import { Component, input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../services/api.service';
-import { Game, GameDetail } from '../models/game.interface';
+import { Game } from '../models/game.interface';
 import { RatingStarComponent } from "./rating-star.component";
 import { StatusStatsComponent } from "./status-stats.component";
 import { GameScreenshotsComponent } from "./game-screenshots.component";
@@ -82,7 +82,7 @@ import { GameTrailerComponent } from "./game-trailer.component";
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
                 <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
-                    <h3 class="text-lg font-semibold mb-2">Trailers</h3>
+                    <h3 class="text-lg font-semibold mb-2">Trailers ({{ movies()?.length ?? 0 }} video)</h3>
                 </div>
                 <div class="collapse-content">
                   <app-game-trailer [gameId]="gameId()" />
@@ -90,11 +90,11 @@ import { GameTrailerComponent } from "./game-trailer.component";
             </div>
           </div>
 
-          <div class="my-4">
+          <div class="my-2">
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
                 <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
-                    <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
+                    <h3 class="text-lg font-semibold mb-2">Screenshots ({{ screenshots()?.length ?? 0 }} immagini)</h3>
                 </div>
                 <div class="collapse-content">
                   <app-game-screenshots [gameId]="game().id" />
@@ -145,6 +145,8 @@ export class CardDetailComponent {
   game = input.required<Game>();
 
   readonly apiService = inject(ApiService);
+  movies = this.apiService.movies;
+  screenshots = this.apiService.screenshots;
 
   private readonly platformIconMap = new Map([
 
