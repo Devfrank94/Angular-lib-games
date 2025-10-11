@@ -8,10 +8,11 @@ import { GameScreenshotsComponent } from "./game-screenshots.component";
 import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { GameTrailerComponent } from "./game-trailer.component";
 
 @Component({
   selector: 'app-card-detail',
-  imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent],
+  imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent, GameTrailerComponent],
   template: `
     <div class="card bg-base-300 shadow-xl rounded-lg">
       <div>
@@ -78,7 +79,10 @@ import { map } from 'rxjs';
           </div>
 
           <div class="flex my-4">
-            <!-- <pre><code>{{ game() | json }}</code></pre> -->
+            <app-game-trailer [gameId]="gameId()" />
+          </div>
+
+          <div class="flex my-4">
             <app-game-screenshots [gameId]="game().id" />
           </div>
 
@@ -120,7 +124,7 @@ import { map } from 'rxjs';
   `,
   styles: ``
 })
-export class CardDetailComponent{
+export class CardDetailComponent {
 
   game = input.required<Game>();
 

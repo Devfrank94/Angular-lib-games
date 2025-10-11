@@ -69,6 +69,13 @@ export interface Screenshot {
   is_deleted: boolean;
 }
 
+export interface GameMovie {
+  id: number;
+  name: string;
+  preview: string;
+  data: Record<string, string>;
+}
+
 export interface Store {
   id: number;
   name: string;
@@ -135,6 +142,11 @@ export interface ScreenshotResponse {
   next: string | null;
   previous: string | null;
   results: Screenshot[];
+}
+
+export interface MoviesResponse {
+  count: number;
+  results: GameMovie[];
 }
 
 export interface PlatformResponse {
