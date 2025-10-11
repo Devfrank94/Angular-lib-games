@@ -17,14 +17,8 @@ import { LoadingComponent } from "./loading.component";
   imports: [CommonModule, LoadingComponent],
   template: `
 
-
   <!-- Loading State -->
       @if (gameDetail(); as game) {
-        <div class="mt-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold mb-2">Trailers</h3>
-          </div>
-        </div>
         @if (moviesLoading()) {
           <div class="flex justify-center p-8">
             <app-loading />
@@ -56,7 +50,7 @@ import { LoadingComponent } from "./loading.component";
 
             <!-- Error State -->
             @if (moviesError()) {
-              <div class="alert alert-error flex items-center justify-between">
+              <div class="alert alert-error flex-center-center">
                 <div>
                   <p class="text-lg text-white">
                     Errore nel caricamento dei trailer

@@ -17,11 +17,7 @@ import { LoadingComponent } from "./loading.component";
     imports: [CommonModule, LoadingComponent],
     template: `
         @if (gameDetail(); as game) { @if (game.screenshots_count > 0) {
-        <div class="mt-6">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
-            </div>
-
+          <div>
             <!-- Screenshots Grid -->
             @if (screenshots(); as screenList) {
             <div
@@ -46,17 +42,17 @@ import { LoadingComponent } from "./loading.component";
             <!-- Error State -->
             @if (screenshotsError()) {
             <div class="alert alert-error flex-center-center">
-                <div>
-                    <p class="text-lg text-white">
-                        Errore nel caricamento degli screenshot
-                    </p>
-                </div>
-                <button class="btn btn-sm" (click)="loadScreenshots()">
-                    Riprova
-                </button>
+              <div>
+                <p class="text-lg text-white">
+                    Errore nel caricamento degli screenshot
+                </p>
+              </div>
+              <button class="btn btn-sm" (click)="loadScreenshots()">
+                  Riprova
+              </button>
             </div>
             }
-        </div>
+          </div>
         } }
 
         <!-- Loading State -->

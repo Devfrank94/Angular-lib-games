@@ -78,12 +78,28 @@ import { GameTrailerComponent } from "./game-trailer.component";
             <app-status-stats [game]="game()" />
           </div>
 
-          <div class="flex my-4">
-            <app-game-trailer [gameId]="gameId()" />
+          <div class="my-4">
+            <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
+                <input type="checkbox" class="peer" />
+                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                    <h3 class="text-lg font-semibold mb-2">Trailers</h3>
+                </div>
+                <div class="collapse-content">
+                  <app-game-trailer [gameId]="gameId()" />
+                </div>
+            </div>
           </div>
 
-          <div class="flex my-4">
-            <app-game-screenshots [gameId]="game().id" />
+          <div class="my-4">
+            <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
+                <input type="checkbox" class="peer" />
+                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                    <h3 class="text-lg font-semibold mb-2">Screenshots</h3>
+                </div>
+                <div class="collapse-content">
+                  <app-game-screenshots [gameId]="game().id" />
+                </div>
+            </div>
           </div>
 
         @if (game()?.description) {
