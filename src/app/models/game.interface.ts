@@ -46,6 +46,14 @@ export interface AddedByStatus {
   playing: number;
 }
 
+export interface GameAchievement {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  percent: string;
+}
+
 export interface Publisher {
   id: number;
   name: string;

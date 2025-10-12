@@ -9,10 +9,11 @@ import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 import { GameTrailerComponent } from "./game-trailer.component";
+import { AchievementsComponent } from './achievements.component';
 
 @Component({
   selector: 'app-card-detail',
-  imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent, GameTrailerComponent],
+  imports: [CommonModule, RatingStarComponent, StatusStatsComponent, GameScreenshotsComponent, GameTrailerComponent, AchievementsComponent],
   template: `
     <div class="card bg-base-300 shadow-xl rounded-lg">
       <div>
@@ -82,6 +83,18 @@ import { GameTrailerComponent } from "./game-trailer.component";
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
                 <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                    <h3 class="text-lg font-semibold mb-2">Achievements</h3>
+                </div>
+                <div class="collapse-content">
+                  <app-achievements [gameId]="game().id" />
+                </div>
+            </div>
+          </div>
+
+          <div class="my-2">
+            <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
+                <input type="checkbox" class="peer" />
+                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
                     <h3 class="text-lg font-semibold mb-2">Trailers ({{ movies()?.length ?? 0 }} video)</h3>
                 </div>
                 <div class="collapse-content">
@@ -147,6 +160,7 @@ export class CardDetailComponent {
   readonly apiService = inject(ApiService);
   movies = this.apiService.movies;
   screenshots = this.apiService.screenshots;
+  achievements = this.apiService.gameAchievements;
 
   private readonly platformIconMap = new Map([
 

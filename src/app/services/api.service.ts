@@ -15,7 +15,8 @@ import {
     Screenshot,
     ScreenshotResponse,
     GameMovie,
-    MoviesResponse
+    MoviesResponse,
+    GameAchievement
 } from "../models/game.interface";
 
 @Injectable({
@@ -43,8 +44,13 @@ export class ApiService {
 
     // Movies
     movies = signal<GameMovie[] | null>(null);
-  moviesLoading = signal(false);
-  moviesError = signal(false);
+    moviesLoading = signal(false);
+    moviesError = signal(false);
+
+    // Achievements
+    gameAchievements = signal<GameAchievement[]>([]);
+    gameAchievementsLoading = signal(false);
+    gameAchievementsError = signal(false);
 
     // Platforms
     platforms = signal<Platform[] | null>(null);
@@ -113,8 +119,6 @@ export class ApiService {
           next: (res) => {
             this.gameDetail.set(res ?? null);
             this.gameDetailLoading.set(false);
-            // TODO:rimuovi console.log
-            // console.log('Gioco Caricato ---->:', res);
           },
           error: () => {
             this.gameDetail.set(null);
@@ -157,7 +161,6 @@ export class ApiService {
         next: (res) => {
           this.movies.set(res.results ?? null);
           this.moviesLoading.set(false);
-          // console.log('Trailer Disponibile ---->:', res);
         },
         error: () => {
           this.movies.set(null);
@@ -166,6 +169,30 @@ export class ApiService {
         },
       });
   }
+
+    getGameAchievements(gameId: number): void {
+      this.gameAchievements.set([]);
+      this.gameAchievementsLoading.set(true);
+      this.gameAchievementsError.set(false);
+
+      const params = new HttpParams().set('key', this.apiKey);
+
+      this.http.get<{ results: GameAchievement[] }>(
+        `${this.baseUrl}/games/${gameId}/achievements`,
+        { params }
+      ).subscribe({
+        next: (res) => {
+          this.gameAchievements.set(res?.results ?? []);
+          this.gameAchievementsLoading.set(false);
+          console.log('Achievements Loaded ---->:', res);
+        },
+        error: () => {
+          this.gameAchievements.set([]);
+          this.gameAchievementsError.set(true);
+          this.gameAchievementsLoading.set(false);
+        }
+      });
+    }
 
     getPlatforms(page: number = 1): void {
         this.platformsLoading.set(true);
