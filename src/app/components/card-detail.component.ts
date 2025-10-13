@@ -82,8 +82,11 @@ import { AchievementsComponent } from './achievements.component';
           <div class="my-4">
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
-                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
-                    <h3 class="text-lg font-semibold mb-2">Achievements</h3>
+                <div class="flex items-center collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+                  </svg>
+                  <h3 class="text-lg font-semibold ms-3">Achievements</h3>
                 </div>
                 <div class="collapse-content">
                   <app-achievements [gameId]="game().id" />
@@ -94,8 +97,11 @@ import { AchievementsComponent } from './achievements.component';
           <div class="my-2">
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
-                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
-                    <h3 class="text-lg font-semibold mb-2">Trailers ({{ movies()?.length ?? 0 }} video)</h3>
+                <div class="flex items-center collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                  </svg>
+                  <h3 class="text-lg font-semibold ms-3">Trailers ({{ movies()?.length ?? 0 }})</h3>
                 </div>
                 <div class="collapse-content">
                   <app-game-trailer [gameId]="gameId()" />
@@ -106,8 +112,11 @@ import { AchievementsComponent } from './achievements.component';
           <div class="my-2">
             <div tabindex="0" class="collapse collapse-arrow bg-base-200 border-base-300 border">
                 <input type="checkbox" class="peer" />
-                <div class="collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
-                    <h3 class="text-lg font-semibold mb-2">Screenshots ({{ screenshots()?.length ?? 0 }} immagini)</h3>
+                <div class="flex items-center collapse-title font-semibold after:start-5 after:end-auto pe-4 ps-12">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                    <h3 class="text-lg font-semibold ms-3">Screenshots ({{ screenshots()?.length ?? 0 }})</h3>
                 </div>
                 <div class="collapse-content">
                   <app-game-screenshots [gameId]="game().id" />
