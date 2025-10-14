@@ -2,14 +2,10 @@ import {
   Component,
   input,
   inject,
-  computed,
-  effect,
-  signal,
   OnInit
 } from "@angular/core";
 import { ApiService } from "../services/api.service";
 import { LoadingComponent } from "./loading.component";
-import { GameAchievement } from "../models/game.interface";
 import { CommonModule } from "@angular/common";
 
 @Component({
@@ -35,12 +31,18 @@ import { CommonModule } from "@angular/common";
                   <div class="card-body">
                     <h3 class="card-title text-sm">{{ achievement.name }}</h3>
                     <p class="text-xs text-base-content/70 line-clamp-2">{{ achievement.description }}</p>
-                    <div class="flex justify-end">
+                    <div class="flex justify-between items-center">
+                      <span>Rarità:</span>
                       <span class="badge badge-accent text-xs">{{ achievement.percent }}%</span>
                     </div>
                   </div>
                 </div>
               }
+            </div>
+
+            <div class="join flex justify-center my-4">
+              <button class="join-item btn btn-lg" [disabled]="!apiService.achievementsPreviousUrl()" (click)="apiService.fetchAchievementsPage(apiService.achievementsPreviousUrl())">Indietro</button>
+              <button class="join-item btn btn-lg" [disabled]="!apiService.achievementsNextUrl()" (click)="apiService.fetchAchievementsPage(apiService.achievementsNextUrl())">Avanti</button>
             </div>
           }
 
@@ -74,8 +76,6 @@ export class AchievementsComponent implements OnInit {
   gameDetail = this.apiService.gameDetail;
   gameDetailLoading = this.apiService.gameDetailLoading;
 
-  selectedAchievement = signal<GameAchievement | null>(null);
-
   achievements = this.apiService.gameAchievements;
   achievementLoading = this.apiService.gameAchievementsLoading;
   achievementError = this.apiService.gameAchievementsError;
@@ -85,9 +85,9 @@ export class AchievementsComponent implements OnInit {
   }
 
   loadAchievements(): void {
-        const id = this.gameId();
-        if (id) {
-            this.apiService.getGameAchievements(id);
-        }
-    }
+      const id = this.gameId();
+      if (id) {
+          this.apiService.getGameAchievements(id);
+      }
+  }
 }

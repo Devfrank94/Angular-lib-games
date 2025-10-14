@@ -152,6 +152,13 @@ export interface ScreenshotResponse {
   results: Screenshot[];
 }
 
+export interface AchievementsResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: GameAchievement[];
+}
+
 export interface MoviesResponse {
   count: number;
   results: GameMovie[];

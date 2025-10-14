@@ -15,7 +15,8 @@ import {
     ScreenshotResponse,
     GameMovie,
     MoviesResponse,
-    GameAchievement
+    AchievementsResponse,
+    GameAchievement,
 } from "../models/game.interface";
 
 @Injectable({
@@ -47,6 +48,9 @@ export class ApiService {
     moviesError = signal(false);
 
     // Achievements
+    achievementsResponse = signal<AchievementsResponse | null>(null);
+    achievementsNextUrl = signal<string | null>(null);
+    achievementsPreviousUrl = signal<string | null>(null);
     gameAchievements = signal<GameAchievement[]>([]);
     gameAchievementsLoading = signal(false);
     gameAchievementsError = signal(false);
@@ -107,24 +111,25 @@ export class ApiService {
     }
 
     getGameDetail(gameId: number): void {
-      this.gameDetail.set(null);
-      this.gameDetailLoading.set(true);
-      this.gameDetailError.set(false);
+        this.gameDetail.set(null);
+        this.gameDetailLoading.set(true);
+        this.gameDetailError.set(false);
 
-      const params = new HttpParams().set('key', this.apiKey);
+        const params = new HttpParams().set("key", this.apiKey);
 
-      this.http.get<GameDetail>(`${this.baseUrl}/games/${gameId}`, { params })
-        .subscribe({
-          next: (res) => {
-            this.gameDetail.set(res ?? null);
-            this.gameDetailLoading.set(false);
-          },
-          error: () => {
-            this.gameDetail.set(null);
-            this.gameDetailError.set(true);
-            this.gameDetailLoading.set(false);
-          }
-        });
+        this.http
+            .get<GameDetail>(`${this.baseUrl}/games/${gameId}`, { params })
+            .subscribe({
+                next: (res) => {
+                    this.gameDetail.set(res ?? null);
+                    this.gameDetailLoading.set(false);
+                },
+                error: () => {
+                    this.gameDetail.set(null);
+                    this.gameDetailError.set(true);
+                    this.gameDetailLoading.set(false);
+                },
+            });
     }
 
     getGameScreenshots(gameId: number): void {
@@ -134,7 +139,10 @@ export class ApiService {
         const params = new HttpParams().set("key", this.apiKey);
 
         this.http
-            .get<ScreenshotResponse>(`${this.baseUrl}/games/${gameId}/screenshots`, { params })
+            .get<ScreenshotResponse>(
+                `${this.baseUrl}/games/${gameId}/screenshots`,
+                { params }
+            )
             .subscribe({
                 next: (res) => {
                     this.screenshots.set(res.results ?? []);
@@ -149,50 +157,70 @@ export class ApiService {
     }
 
     getGameMovies(gameId: number): void {
-    this.moviesLoading.set(true);
-    this.moviesError.set(false);
+        this.moviesLoading.set(true);
+        this.moviesError.set(false);
 
-    const params = new HttpParams().set('key', this.apiKey);
+        const params = new HttpParams().set("key", this.apiKey);
 
-    this.http
-      .get<MoviesResponse>(`${this.baseUrl}/games/${gameId}/movies`, { params })
-      .subscribe({
-        next: (res) => {
-          this.movies.set(res.results ?? null);
-          this.moviesLoading.set(false);
-        },
-        error: () => {
-          this.movies.set(null);
-          this.moviesError.set(true);
-          this.moviesLoading.set(false);
-        },
-      });
-  }
+        this.http
+            .get<MoviesResponse>(`${this.baseUrl}/games/${gameId}/movies`, {
+                params,
+            })
+            .subscribe({
+                next: (res) => {
+                    this.movies.set(res.results ?? null);
+                    this.moviesLoading.set(false);
+                },
+                error: () => {
+                    this.movies.set(null);
+                    this.moviesError.set(true);
+                    this.moviesLoading.set(false);
+                },
+            });
+    }
 
     getGameAchievements(gameId: number): void {
-      this.gameAchievements.set([]);
-      this.gameAchievementsLoading.set(true);
-      this.gameAchievementsError.set(false);
+        this.gameAchievements.set([]);
+        this.gameAchievementsLoading.set(true);
+        this.gameAchievementsError.set(false);
 
-      const params = new HttpParams()
-      .set('key', this.apiKey)
-      .set('page_size', '20');
+        const params = new HttpParams()
+            .set("key", this.apiKey)
+            .set("page_size", "20");
 
-      this.http.get<{ results: GameAchievement[] }>(
-        `${this.baseUrl}/games/${gameId}/achievements`,
-        { params }
-      ).subscribe({
-        next: (res) => {
-          this.gameAchievements.set(res?.results ?? []);
-          this.gameAchievementsLoading.set(false);
-          console.log('Achievements Loaded ---->:', res);
-        },
-        error: () => {
-          this.gameAchievements.set([]);
-          this.gameAchievementsError.set(true);
-          this.gameAchievementsLoading.set(false);
-        }
-      });
+        this.http
+            .get<AchievementsResponse>(
+                `${this.baseUrl}/games/${gameId}/achievements`,
+                { params }
+            )
+            .subscribe({
+                next: (res) => {
+                    this.achievementsResponse.set(res);
+                    this.gameAchievements.set(res.results);
+                    this.achievementsNextUrl.set(res.next);
+                    this.achievementsPreviousUrl.set(res.previous);
+                    this.gameAchievementsLoading.set(false);
+                },
+                error: () => {
+                    this.gameAchievements.set([]);
+                    this.gameAchievementsError.set(true);
+                    this.gameAchievementsLoading.set(false);
+                },
+            });
+    }
+
+    fetchAchievementsPage(url: string | null): void {
+        if (!url) return;
+        this.gameAchievementsLoading.set(true);
+        this.http.get<AchievementsResponse>(url).subscribe({
+            next: (res) => {
+                this.gameAchievements.set(res.results);
+                this.achievementsNextUrl.set(res.next);
+                this.achievementsPreviousUrl.set(res.previous);
+                this.gameAchievementsLoading.set(false);
+            },
+            error: () => this.gameAchievementsLoading.set(false),
+        });
     }
 
     getPlatforms(page: number = 1): void {
@@ -211,9 +239,9 @@ export class ApiService {
                     page === 1
                         ? this.platforms.set(res.results)
                         : this.platforms.update((current) =>
-                            current
-                                ? [...current, ...res.results]
-                                : res.results
+                              current
+                                  ? [...current, ...res.results]
+                                  : res.results
                           );
                     this.platformsLoading.set(false);
                 },
