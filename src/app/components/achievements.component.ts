@@ -31,9 +31,9 @@ import { CommonModule } from "@angular/common";
                   <div class="card-body">
                     <h3 class="card-title text-sm">{{ achievement.name }}</h3>
                     <p class="text-xs text-base-content/70 line-clamp-2">{{ achievement.description }}</p>
-                    <div class="flex justify-between items-center">
-                      <span>Rarità:</span>
-                      <span class="badge badge-accent text-xs">{{ achievement.percent }}%</span>
+                    <div class="flex justify-between items-center flex-wrap">
+                      <div class="text-xs sm:text-sm">Rarità:</div>
+                      <div class="badge badge-accent font-light text-xs sm:text-sm badge-xs sm:badge-md text-white">{{ achievement.percent }}%</div>
                     </div>
                   </div>
                 </div>
