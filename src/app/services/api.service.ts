@@ -175,7 +175,9 @@ export class ApiService {
       this.gameAchievementsLoading.set(true);
       this.gameAchievementsError.set(false);
 
-      const params = new HttpParams().set('key', this.apiKey);
+      const params = new HttpParams()
+      .set('key', this.apiKey)
+      .set('page_size', '20');
 
       this.http.get<{ results: GameAchievement[] }>(
         `${this.baseUrl}/games/${gameId}/achievements`,
