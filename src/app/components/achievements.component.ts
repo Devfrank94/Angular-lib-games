@@ -29,7 +29,6 @@ import { CommonModule } from "@angular/common";
                       [src]="achievement.image"
                       [alt]="achievement.name"
                       class="w-full rounded-lg object-contain"
-                      (click)="openModal(achievement)"
                       loading="lazy"
                     />
                   </figure>
