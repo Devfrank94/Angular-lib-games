@@ -56,6 +56,7 @@ export class ApiService {
     gameAchievementsError = signal(false);
 
     // Platforms
+    platformsRes = signal<PlatformResponse | null>(null);
     platforms = signal<Platform[] | null>(null);
     platformsLoading = signal(false);
     platformsError = signal(false);
@@ -244,6 +245,7 @@ export class ApiService {
                                   : res.results
                           );
                     this.platformsLoading.set(false);
+                    console.log('log Api--->', res);
                 },
                 error: () => {
                     this.platformsError.set(true);
