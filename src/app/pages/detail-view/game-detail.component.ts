@@ -1,5 +1,5 @@
 import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { LoadingComponent } from "../../components/loading.component";
@@ -49,7 +49,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private readonly titleService = inject(Title);
 
-  constructor () {
+  constructor (private location: Location) {
     effect(() => {
       const game = this.apiService.gameDetail();
       const loading = this.apiService.gameDetailLoading();
@@ -83,7 +83,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/']);
+    // this.router.navigate(['/']);
+    this.location.back();
   }
 
   ngOnDestroy(): void {
