@@ -59,7 +59,7 @@ import { AchievementsComponent } from './achievements.component';
                     <img
                       [src]="platformIcon(parent.platform.name)"
                       [alt]="parent.platform.name"
-                      class="w-4 h-4 sm:w-5 sm:h-5"
+                      class="w-4 h-4 sm:w-5 sm:h-5 invert"
                       loading="lazy"
                     />
                   </a>
