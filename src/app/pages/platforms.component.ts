@@ -20,24 +20,31 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
       <div class="h-full glass rounded-lg shadow-md py-8 px-5 overflow-y-scroll">
         <div class="grid grid-cols-1 gap-4">
           @for (platform of platforms(); track platform.id) {
-            <div class="card md:card-side bg-base-100 shadow-xl">
-              <figure class="bg-accent flex-center-center w-">
-                <div class="avatar flex-center-center">
-                  <div class="flex-center-center ring-white w-80 rounded-full ring-2 ring-offset-2">
+            <div class="card lg:card-side bg-base-100 shadow-xl">
+              <!-- TODO:verifica responsive -->
+              <figure class="flex-center-center w-full lg:w-150">
+                  <div class="flex-center-center">
                       <img
                       [src]="platformImage(platform.name)"
                       [alt]="platform.name"
-                      class="object-cover scale-60"
+                      class="object-contain"
                       loading="lazy"
                     />
                   </div>
-                </div>
               </figure>
               <div class="card-body">
-                <h2 class="card-title">{{ platform.name }}</h2>
+                <div class="flex-start-center">
+                  <h2 class="card-title me-4">{{ platform.name }}</h2>
+                  <img
+                      [src]="platformIcon(platform.name)"
+                      [alt]="platform.name"
+                      class="w-4 h-4 sm:w-5 sm:h-5"
+                      loading="lazy"
+                    />
+                </div>
                 <p>Titoli disponibili: {{ platform.games_count }}</p>
-                <div class="overflow-x-auto">
-                  <h2 class="font-bold">Top 6 giochi:</h2>
+                <h2 class="font-bold mb-3">Top 6 giochi:</h2>
+                <div class="overflow-x-auto container border border-base-content/15">
                     <table class="table table-zebra">
                       <thead>
                         <tr>
@@ -102,6 +109,35 @@ export default class PlatformsComponent implements OnInit {
 
   platformImage = (platformName: string) => {
     return this.platformImageMap.get(platformName) || null;
+  };
+
+    private readonly platformIconMap = new Map([
+
+    ['PlayStation', 'assets/platforms/playstation.svg'],
+    ['PlayStation 2', 'assets/platforms/playstation.svg'],
+    ['PlayStation 3', 'assets/platforms/playstation.svg'],
+    ['PlayStation 4', 'assets/platforms/playstation.svg'],
+    ['PlayStation 5', 'assets/platforms/playstation.svg'],
+    ['PS Vita', 'assets/platforms/playstation.svg'],
+    ['PSP', 'assets/platforms/playstation.svg'],
+    ['Xbox', 'assets/platforms/xbox.svg'],
+    ['Xbox 360', 'assets/platforms/xbox.svg'],
+    ['Xbox One', 'assets/platforms/xbox.svg'],
+    ['Xbox Series S/X', 'assets/platforms/xbox.svg'],
+    ['Nintendo Switch', 'assets/platforms/nintendo.svg'],
+    ['Nintendo 3DS', 'assets/platforms/nintendo.svg'],
+    ['Nintendo DS', 'assets/platforms/nintendo.svg'],
+    ['Nintendo DSi', 'assets/platforms/nintendo.svg'],
+    ['PC', 'assets/platforms/windows.svg'],
+    ['macOS', 'assets/platforms/mac.svg'],
+    ['Linux', 'assets/platforms/linux.svg'],
+    ['iOS', 'assets/platforms/ios.svg'],
+    ['Android', 'assets/platforms/android.svg']
+
+  ]);
+
+  platformIcon = (platformName: string) => {
+    return this.platformIconMap.get(platformName) || null;
   };
 
   ngOnInit() {
