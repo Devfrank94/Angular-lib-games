@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { first } from 'rxjs';
 
 export interface FooterConfig {
   companyLogo: string;
@@ -19,6 +20,7 @@ export class FooterService {
 
   constructor(private http: HttpClient) {
     this.http.get<FooterConfig>('config/footer-config.json')
+    .pipe(first())
     .subscribe(res => this.footerConfig.set(res));
   }
 

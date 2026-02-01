@@ -1,9 +1,10 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { globalSearchQuery } from '../signals/search.signal';
-import { Subject, debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subject, debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -37,8 +38,8 @@ export class SearchbarComponent {
 
   private readonly apiService = inject(ApiService);
   private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   readonly searchQuery = globalSearchQuery;
-
 
   private searchSubject = new Subject<string>();
 
@@ -46,14 +47,18 @@ export class SearchbarComponent {
     // Debounce per evitare troppe chiamate API
     this.searchSubject.pipe(
       debounceTime(300), // Aspetta 300ms dopo che l'utente smette di digitare
-      distinctUntilChanged() // Solo se il valore è diverso
+      distinctUntilChanged(), // Solo se il valore è diverso
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(query => {
       this.performSearch(query);
     });
 
     // Ripristina la ricerca quando si torna alla home
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((event: NavigationEnd) => {
         // Se siamo in home e c'è una search query, ripristina i risultati
         if (event.url === '/' || event.url === '/home') {

@@ -4,7 +4,6 @@ import {
     input,
     inject,
     computed,
-    effect,
     signal,
     OnInit,
 } from "@angular/core";
@@ -85,12 +84,6 @@ export class GameTrailerComponent implements OnInit {
   selectedMovie = signal<GameMovie | null>(null);
 
   moviesLoaded = computed(() => this.movies() !== null);
-
-  constructor() {
-    effect(() => {
-      this.apiService.movies.set(null);
-    });
-  }
 
   ngOnInit(): void {
     this.loadMovies();

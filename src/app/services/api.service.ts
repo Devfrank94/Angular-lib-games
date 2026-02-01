@@ -1,6 +1,7 @@
-import { Injectable, inject, signal } from "@angular/core";
+import { Injectable, inject, signal, DestroyRef } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {
     GameResponse,
     PlatformResponse,
@@ -26,6 +27,7 @@ export class ApiService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = "https://api.rawg.io/api";
     private readonly apiKey = environment.apiKey;
+    private readonly destroyRef = inject(DestroyRef);
 
     // Games
     games = signal<Game[] | null>(null);
@@ -92,6 +94,7 @@ export class ApiService {
 
         this.http
             .get<GameResponse>(`${this.baseUrl}/games`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     const results = res.results ?? [];
@@ -120,6 +123,7 @@ export class ApiService {
 
         this.http
             .get<GameDetail>(`${this.baseUrl}/games/${gameId}`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     this.gameDetail.set(res ?? null);
@@ -144,6 +148,7 @@ export class ApiService {
                 `${this.baseUrl}/games/${gameId}/screenshots`,
                 { params }
             )
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     this.screenshots.set(res.results ?? []);
@@ -167,6 +172,7 @@ export class ApiService {
             .get<MoviesResponse>(`${this.baseUrl}/games/${gameId}/movies`, {
                 params,
             })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     this.movies.set(res.results ?? null);
@@ -194,6 +200,7 @@ export class ApiService {
                 `${this.baseUrl}/games/${gameId}/achievements`,
                 { params }
             )
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     this.achievementsResponse.set(res);
@@ -213,15 +220,17 @@ export class ApiService {
     fetchAchievementsPage(url: string | null): void {
         if (!url) return;
         this.gameAchievementsLoading.set(true);
-        this.http.get<AchievementsResponse>(url).subscribe({
-            next: (res) => {
-                this.gameAchievements.set(res.results);
-                this.achievementsNextUrl.set(res.next);
-                this.achievementsPreviousUrl.set(res.previous);
-                this.gameAchievementsLoading.set(false);
-            },
-            error: () => this.gameAchievementsLoading.set(false),
-        });
+        this.http.get<AchievementsResponse>(url)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (res) => {
+                    this.gameAchievements.set(res.results);
+                    this.achievementsNextUrl.set(res.next);
+                    this.achievementsPreviousUrl.set(res.previous);
+                    this.gameAchievementsLoading.set(false);
+                },
+                error: () => this.gameAchievementsLoading.set(false),
+            });
     }
 
     getPlatforms(page: number = 1): void {
@@ -235,6 +244,7 @@ export class ApiService {
 
         this.http
             .get<PlatformResponse>(`${this.baseUrl}/platforms`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     page === 1
@@ -245,7 +255,6 @@ export class ApiService {
                                   : res.results
                           );
                     this.platformsLoading.set(false);
-                    console.log('log Api--->', res);
                 },
                 error: () => {
                     this.platformsError.set(true);
@@ -265,6 +274,7 @@ export class ApiService {
 
         this.http
             .get<CreatorResponse>(`${this.baseUrl}/creators`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     page === 1
@@ -294,6 +304,7 @@ export class ApiService {
 
         this.http
             .get<DeveloperResponse>(`${this.baseUrl}/developers`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     page === 1
@@ -337,6 +348,7 @@ export class ApiService {
 
         this.http
             .get<GameResponse>(`${this.baseUrl}/games`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     const results = res.results ?? [];
@@ -369,6 +381,7 @@ export class ApiService {
 
         this.http
             .get<GameResponse>(`${this.baseUrl}/games`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     const results = res.results ?? [];
@@ -400,6 +413,7 @@ export class ApiService {
 
         this.http
             .get<GameResponse>(`${this.baseUrl}/games`, { params })
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (res) => {
                     this.games.set(res.results || []);
@@ -412,4 +426,5 @@ export class ApiService {
                 },
             });
     }
+
 }

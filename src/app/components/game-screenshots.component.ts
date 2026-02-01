@@ -4,7 +4,6 @@ import {
     input,
     inject,
     computed,
-    effect,
     signal,
     OnInit,
 } from "@angular/core";
@@ -103,11 +102,6 @@ export class GameScreenshotsComponent implements OnInit {
 
     screenshotsLoaded = computed(() => this.screenshots() !== null);
 
-    constructor() {
-        effect(() => {
-            this.apiService.screenshots.set(null);
-        });
-    }
     ngOnInit(): void {
         this.loadScreenshots();
     }

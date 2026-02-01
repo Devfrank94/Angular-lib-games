@@ -1,6 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, DestroyRef } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { SwitchModeComponent } from "./switch-mode.component";
 import { SearchbarComponent } from "./searchbar.component";
 
@@ -24,16 +25,20 @@ import { SearchbarComponent } from "./searchbar.component";
 export class ToolbarComponent {
 
   private readonly router = inject(Router);
-  
+  private readonly destroyRef = inject(DestroyRef);
+
   isGameDetailRoute = signal(false);
 
   constructor() {
     // Controlla la rotta al caricamento iniziale
     this.checkRoute();
-    
+
     // Ascolta i cambi di navigazione
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe(() => {
         this.checkRoute();
       });
