@@ -1,13 +1,13 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { PlatformResponse } from '../models/game.interface';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from "../components/loading.component";
 import { ErrorgenericComponent } from "../components/error-generic.component";
 
 @Component({
   selector: 'app-platforms',
-  imports: [CommonModule, LoadingComponent, ErrorgenericComponent],
+  imports: [CommonModule, RouterLink, LoadingComponent, ErrorgenericComponent],
   template: `
     @if (platformsLoading()) {
     <div class="flex-center-center p-8">
@@ -21,7 +21,6 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
         <div class="grid grid-cols-1 gap-4">
           @for (platform of platforms(); track platform.id) {
             <div class="card lg:card-side bg-base-100 shadow-xl">
-              <!-- TODO:verifica responsive -->
               <figure class="flex-center-center w-full lg:w-150">
                   <div class="flex-center-center">
                       <img
@@ -33,37 +32,51 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
                   </div>
               </figure>
               <div class="card-body">
-                <div class="flex-start-center">
+                <div class="flex-start-center ">
                   <h2 class="card-title me-4">{{ platform.name }}</h2>
-                  <img
+                  <div class="bg-accent py-1 px-2 rounded-full">
+                    <img
                       [src]="platformIcon(platform.name)"
                       [alt]="platform.name"
-                      class="w-4 h-4 sm:w-5 sm:h-5"
+                      class="w-4 h-4 sm:w-5 sm:h-5 invert"
                       loading="lazy"
                     />
+                  </div>
                 </div>
                 <p>Titoli disponibili: {{ platform.games_count }}</p>
-                <h2 class="font-bold mb-3">Top 6 giochi:</h2>
-                <div class="overflow-x-auto container border border-base-content/15">
-                    <table class="table table-zebra">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Nome</th>
-                          <th>Slug</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @for (game of platform.games; track game.id) {
+                <div class="flex-center-center">
+                  <div>
+                    <h2 class="font-bold mb-3">Top 6 giochi:</h2>
+                    <div class="overflow-x-auto border rounded-box border-base-content/15 bg-base-100">
+                      <table class="table">
+                        <thead>
                           <tr>
-                            <td class="font-mono">{{ game.id }}</td>
-                            <td class="font-semibold">{{ game.name }}</td>
-                            <td class="text-sm opacity-70">{{ game.slug }}</td>
+                            <th>Cover</th>
+                            <th>Nome</th>
                           </tr>
-                        }
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          @for (game of platform.games; track game.id) {
+                            <tr class="hover:bg-accent hover:text-white">
+                              <td>
+                                <div class="flex items-center gap-3">
+                                  <div class="avatar">
+                                    <!-- TODO: inserisci immagine -->
+                                  </div>
+                                </div>
+                              </td>
+                              <td class="font-semibold">
+                                <a [routerLink]="['/game', game.id, game.slug]" class="link link-hover">
+                                  <p class="truncate">{{ game.name }}</p>
+                                </a>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
+                </div>
               </div>
             </div>
           }
@@ -76,8 +89,6 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
 })
 export default class PlatformsComponent implements OnInit {
   readonly apiService = inject(ApiService);
-
-  // platform = input.required<PlatformResponse>();
 
   platforms = this.apiService.platforms;
   platformsLoading = this.apiService.platformsLoading;
