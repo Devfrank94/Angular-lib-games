@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from "../components/loading.component";
 import { ErrorgenericComponent } from "../components/error-generic.component";
@@ -21,7 +21,7 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
         <div class="grid grid-cols-1 gap-4">
           @for (platform of platforms(); track platform.id) {
             <div class="card lg:card-side bg-base-100 shadow-xl">
-              <figure class="flex-center-center w-full lg:w-150">
+              <figure class="flex-center-center lg:w-2/4">
                   <div class="flex-center-center">
                       <img
                       [src]="platformImage(platform.name)"
@@ -32,7 +32,7 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
                   </div>
               </figure>
               <div class="card-body">
-                <div class="flex-start-center ">
+                <div class="flex-start-center">
                   <h2 class="card-title me-4">{{ platform.name }}</h2>
                   <div class="bg-accent py-1 px-2 rounded-full">
                     <img
@@ -43,28 +43,22 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
                     />
                   </div>
                 </div>
-                <p>Titoli disponibili: {{ platform.games_count }}</p>
+                <div class="mb-4">
+                  <p>Titoli disponibili: {{ platform.games_count }}</p>
+                </div>
                 <div class="flex-center-center">
-                  <div>
+                  <div class="w-100 lg:w-full">
                     <h2 class="font-bold mb-3">Top 6 giochi:</h2>
                     <div class="overflow-x-auto border rounded-box border-base-content/15 bg-base-100">
-                      <table class="table">
+                      <table class="table table-zebra">
                         <thead>
                           <tr>
-                            <th>Cover</th>
                             <th>Nome</th>
                           </tr>
                         </thead>
                         <tbody>
                           @for (game of platform.games; track game.id) {
                             <tr class="hover:bg-accent hover:text-white">
-                              <td>
-                                <div class="flex items-center gap-3">
-                                  <div class="avatar">
-                                    <!-- TODO: inserisci immagine -->
-                                  </div>
-                                </div>
-                              </td>
                               <td class="font-semibold">
                                 <a [routerLink]="['/game', game.id, game.slug]" class="link link-hover">
                                   <p class="truncate">{{ game.name }}</p>
