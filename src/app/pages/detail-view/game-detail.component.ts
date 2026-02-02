@@ -1,11 +1,10 @@
-import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { LoadingComponent } from "../../components/loading.component";
 import { CardDetailComponent } from '../../components/card-detail.component';
 import { ErrorgenericComponent } from '../../components/error-generic.component';
-import { Subject } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -41,12 +40,11 @@ import { Title } from '@angular/platform-browser';
   `,
   styles: ``
 })
-export class GameDetailComponent implements OnInit, OnDestroy {
+export class GameDetailComponent implements OnInit {
 
   readonly apiService = inject(ApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private destroy$ = new Subject<void>();
   private readonly titleService = inject(Title);
 
   constructor (private location: Location) {
@@ -83,14 +81,6 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    // this.router.navigate(['/']);
     this.location.back();
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-    // Pulisci anche il signal quando esci
-    this.apiService.gameDetail.set(null);
   }
 }
