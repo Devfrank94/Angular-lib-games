@@ -4,7 +4,9 @@ import { Component } from '@angular/core';
   selector: 'app-loading',
   imports: [],
   template: `
-    <span class="loading loading-infinity loading-xl sm:w-20"></span>
+    <div class="h-80 sm:h-[50vh] 2xl:h-[70vh]">
+      <span class="loading loading-infinity loading-xl sm:w-20"></span>
+    </div>
   `,
   styles: ``
 })
