@@ -16,8 +16,7 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
   } @else if (platformsError()) {
     <app-error-generic/>
   } @else {
-    <div class="h-100 sm:h-[50vh] 2xl:h-[70vh]">
-      <div class="h-full glass rounded-lg shadow-md py-8 px-5 overflow-y-scroll">
+      <div class="h-full glass rounded-lg shadow-md p-4 overflow-y-scroll">
         <div class="grid grid-cols-1 gap-4">
           @for (platform of platforms(); track platform.id) {
             <div class="card lg:card-side bg-base-100 shadow-xl">
@@ -76,8 +75,7 @@ import { ErrorgenericComponent } from "../components/error-generic.component";
           }
         </div>
       </div>
-    </div>
-  }
+    }
   `,
   styles: ``
 })
