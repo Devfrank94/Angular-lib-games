@@ -311,7 +311,7 @@ export class ApiService {
         const params = new HttpParams()
             .set("key", this.apiKey)
             .set("page", page.toString())
-            .set("page_size", "20");
+            .set("page_size", "40");
 
         this.http.get<DeveloperResponse>(`${this.baseUrl}/developers`, { params }).subscribe({
             next: (res) => {
