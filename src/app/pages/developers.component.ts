@@ -1,12 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ErrorgenericComponent } from '../components/error-generic.component';
 import { LoadingComponent } from '../components/loading.component';
 import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-developers',
-  imports: [CommonModule, ErrorgenericComponent, LoadingComponent],
+  imports: [CommonModule, RouterLink, ErrorgenericComponent, LoadingComponent],
   template: `
     @if (developersLoading()) {
       <div class="flex-center-center p-8">
@@ -17,13 +18,12 @@ import { ApiService } from '../services/api.service';
     } @else {
       <div class="glass rounded-lg shadow-md grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
         @for (developer of developers(); track developer.id) {
-          <!-- {{ developers()[0] | json }} -->
           <div class="card bg-base-100 image-full shadow-md">
             <figure>
               <img
                 [src]="developer.image_background"
                 [alt]="developer.name"
-                class="object-contain w-full scale-110"
+                class="object-cover w-full scale-110"
                 loading="lazy" />
             </figure>
             <div class="card-body">
@@ -39,6 +39,26 @@ import { ApiService } from '../services/api.service';
                   <div class="stat-value text-accent">{{ developer.games_count }}</div>
                 </div>
               </div>
+              <div class="overflow-x-auto">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th class="text-white text-lg">Elenco Giochi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (game of developer.games; track game.id) {
+                        <tr class="hover:bg-accent hover:text-white">
+                          <td class="font-semibold">
+                            <a [routerLink]="['/game', game.id, game.slug]" class="link link-hover">
+                              <p class="truncate">{{ game.name }}</p>
+                            </a>
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
             </div>
           </div>
         }
