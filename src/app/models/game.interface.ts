@@ -92,6 +92,17 @@ export interface Store {
   image_background: string;
 }
 
+export interface GameRelease {
+  id: number;
+  slug: string;
+  name: string;
+  released: string;
+  background_image: string;
+  platforms: { platform: { id: number; name: string; slug: string } }[];
+  rating: number;
+  metacritic: number | null;
+}
+
 ///////////////////// Game Detail ////////////////
 
 export interface Platform {
