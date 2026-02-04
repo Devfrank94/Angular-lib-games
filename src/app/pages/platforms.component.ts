@@ -132,6 +132,7 @@ export default class PlatformsComponent implements OnInit {
     ['Nintendo DS', 'assets/platforms/nintendo.svg'],
     ['Nintendo DSi', 'assets/platforms/nintendo.svg'],
     ['PC', 'assets/platforms/windows.svg'],
+    ['Steam', 'assets/platforms/steam.svg'],
     ['macOS', 'assets/platforms/mac.svg'],
     ['Linux', 'assets/platforms/linux.svg'],
     ['iOS', 'assets/platforms/ios.svg'],
