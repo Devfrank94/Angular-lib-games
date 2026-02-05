@@ -26,7 +26,7 @@ interface CalendarDay {
     } @else if (newReleasesError()) {
       <app-error-generic/>
     } @else {
-      <div class="bg-base-300 rounded-lg shadow-lg p-4 py-5 md:py-9">
+      <div class="bg-base-300 rounded-lg shadow-lg p-1 sm:p-4 py-5 md:py-9">
       <!-- Navigazione Mese -->
       <nav class="flex justify-between items-center max-w-4xl mx-auto mb-6 p-4 bg-base-100 rounded-box shadow">
         <button class="btn btn-ghost btn-md gap-2" (click)="previousMonth()">
@@ -94,10 +94,15 @@ interface CalendarDay {
                 <div class="my-1 flex flex-wrap gap-1">
                   @for (release of day.releases.slice(0, 3); track release.id) {
                     <div
-                      class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full bg-cover bg-center border border-base-300 tooltip"
-                      [style.background-image]="'url(' + release.background_image + ')'"
+                      class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full border border-base-300 tooltip overflow-hidden"
                       [attr.data-tip]="release.name"
-                    ></div>
+                    >
+                      <img
+                        [src]="release.background_image"
+                        (error)="handleImageError($event)"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
                   }
                   @if (day.releases.length > 3) {
                     <div class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full bg-base-300 flex items-center justify-center text-xs font-bold">
@@ -135,14 +140,15 @@ interface CalendarDay {
                   class="card card-side bg-base-200 hover:bg-base-300 transition-colors"
                   (click)="openGameModal(game)"
                 >
-                  <figure class="w-28 md:w-36 shrink-0">
-                    <img [src]="game.background_image" [alt]="game.name" class="h-full object-cover" />
+                  <figure class="w-1/3 sm:w-1/2 shrink-0">
+                    <img [src]="game.background_image" [alt]="game.name" class="h-full object-contain sm:object-cover" (error)="handleImageError($event)" />
                   </figure>
                   <div class="card-body p-3 md:p-4">
                     <h3 class="card-title text-sm md:text-base line-clamp-1">{{ game.name }}</h3>
 
                     <!-- Platforms -->
-                    <div class="flex flex-wrap gap-1">
+                    @if (game.platforms) {
+                      <div class="flex flex-wrap gap-1">
                         <div class="flex flex-wrap gap-3 mb-3 w-fit bg-accent py-2 px-3 sm:py-2 sm:px-4 rounded-full">
                         @for (p of game.platforms; track p.platform.id) {
                           <a class="tooltip tooltip-hover tooltip-bottom" [attr.data-tip]="p.platform.name">
@@ -156,7 +162,7 @@ interface CalendarDay {
                           }
                         </div>
                       </div>
-
+                    }
                     <!-- Rating -->
                     <div class="my-3">
                       <app-rating-star [rating]="game.rating" />
@@ -235,6 +241,10 @@ export default class NewReleasesComponent implements OnInit {
   platformIcon = (platformName: string) => {
     return this.platformIconMap.get(platformName) || null;
   };
+
+  handleImageError(event: Event) {
+    (event.target as HTMLImageElement).src = '/assets/placeholder-img-games.png';
+  }
 
 // State
   currentDate = signal(new Date());
@@ -316,9 +326,11 @@ export default class NewReleasesComponent implements OnInit {
     if (!day.isCurrentMonth) {
       classes.push('opacity-40');
     }
-
     if (day.isToday) {
       classes.push('border-secondary', 'border-2');
+      if (day.releases.length > 0) {
+        classes.push('cursor-pointer', 'hover:shadow-lg', 'hover:scale-[1.02]');
+      }
     } else if (day.releases.length > 0) {
       classes.push('border-primary', 'border-2', 'cursor-pointer', 'hover:shadow-lg', 'hover:scale-[1.02]');
     } else {
