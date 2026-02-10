@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ErrorgenericComponent } from '../components/error-generic.component';
@@ -138,7 +138,6 @@ interface CalendarDay {
               @for (game of day.releases; track game.id) {
                 <article
                   class="card card-side bg-base-200 hover:bg-base-300 transition-colors"
-                  (click)="openGameModal(game)"
                 >
                   <figure class="w-1/3 sm:w-1/2 shrink-0">
                     <img [src]="game.background_image" [alt]="game.name" class="h-full object-contain sm:object-cover" (error)="handleImageError($event)" />
@@ -203,14 +202,20 @@ interface CalendarDay {
   `,
   styles: ``
 })
-export default class NewReleasesComponent implements OnInit {
+export default class NewReleasesComponent {
   readonly apiService = inject(ApiService);
 
   newReleasesLoading = this.apiService.newReleasesLoading;
   newReleasesError = this.apiService.newReleasesError;
 
-  ngOnInit() {
-    this.apiService.getNewReleases();
+  constructor() {
+    effect(() => {
+      const date = this.currentDate();
+      this.apiService.getNewReleases(
+        date.getFullYear(),
+        date.getMonth()
+      );
+    });
   }
 
   private readonly platformIconMap = new Map([
@@ -249,9 +254,7 @@ export default class NewReleasesComponent implements OnInit {
 // State
   currentDate = signal(new Date());
   selectedDay = signal<CalendarDay | null>(null);
-  selectedGame = signal<GameRelease | null>(null);
-
-  weekdays = ['DOM', 'LUN', 'MAR', 'MER', 'VEN', 'GIO', 'SAB'];
+  weekdays = ['DOM', 'LUN', 'MAR', 'MER', 'GIO', 'VEN', 'SAB'];
 
   // Computed
   currentMonthName = computed(() =>
@@ -266,54 +269,43 @@ export default class NewReleasesComponent implements OnInit {
     const year = date.getFullYear();
     const month = date.getMonth();
 
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startPadding = firstDay.getDay();
-    const totalDays = lastDay.getDate();
+    // Organizza le release in una mappa per data
+    const releasesByDate = new Map<string, GameRelease[]>();
+    for (const release of releases) {
+      if (!release.released) continue;
+      const existing = releasesByDate.get(release.released);
+      if (existing) {
+        existing.push(release);
+      } else {
+        releasesByDate.set(release.released, [release]);
+      }
+    }
 
-    const days: CalendarDay[] = [];
+    const startPadding = new Date(year, month, 1).getDay();
     const today = new Date();
+    const days: CalendarDay[] = [];
 
-    // Previous month
-    const prevMonth = new Date(year, month, 0);
-    for (let i = startPadding - 1; i >= 0; i--) {
-      const dayDate = new Date(year, month - 1, prevMonth.getDate() - i);
-      days.push(this.createCalendarDay(dayDate, false, today, releases));
-    }
-
-    // Current month
-    for (let i = 1; i <= totalDays; i++) {
-      const dayDate = new Date(year, month, i);
-      days.push(this.createCalendarDay(dayDate, true, today, releases));
-    }
-
-    // Next month
-    const remaining = 42 - days.length;
-    for (let i = 1; i <= remaining; i++) {
-      const dayDate = new Date(year, month + 1, i);
-      days.push(this.createCalendarDay(dayDate, false, today, releases));
+    for (let i = 0; i < 42; i++) {
+      const dayDate = new Date(year, month, 1 - startPadding + i);
+      const dateStr = this.formatDate(dayDate);
+      days.push({
+        date: dayDate,
+        dayNumber: dayDate.getDate(),
+        isCurrentMonth: dayDate.getMonth() === month,
+        isToday: this.isSameDay(dayDate, today),
+        releases: releasesByDate.get(dateStr) ?? []
+      });
     }
 
     return days;
   });
 
   // Helpers
-  private createCalendarDay(date: Date, isCurrentMonth: boolean, today: Date, releases: GameRelease[]): CalendarDay {
-    return {
-      date,
-      dayNumber: date.getDate(),
-      isCurrentMonth,
-      isToday: this.isSameDay(date, today),
-      releases: this.getReleasesForDate(date, releases)
-    };
-  }
-
-  private getReleasesForDate(date: Date, releases: GameRelease[]): GameRelease[] {
+  private formatDate(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    const dateStr = `${year}-${month}-${day}`;
-    return releases.filter(r => r.released === dateStr);
+    return `${year}-${month}-${day}`;
   }
 
   private isSameDay(d1: Date, d2: Date): boolean {
@@ -336,7 +328,6 @@ export default class NewReleasesComponent implements OnInit {
     } else {
       classes.push('border-base-300');
     }
-
     return classes.join(' ');
   }
 
