@@ -17,6 +17,7 @@ import {
     MoviesResponse,
     AchievementsResponse,
     GameAchievement,
+    GameRelease,
 } from "../models/game.interface";
 
 // Generic state interface per async data
@@ -26,11 +27,24 @@ interface AsyncState<T> {
     error: boolean;
 }
 
+// Extended state per le new releases con tracking del mese
+interface NewReleasesState extends AsyncState<GameRelease[] | null> {
+  currentMonth: number | null;
+  currentYear: number | null;
+}
+
 // Helper per creare async state iniziale
 const createAsyncState = <T>(initial: T): AsyncState<T> => ({
     data: initial,
     loading: false,
     error: false,
+});
+
+// Helper specifico per new releases
+const createNewReleasesState = (): NewReleasesState => ({
+  ...createAsyncState<GameRelease[] | null>(null),
+  currentMonth: null,
+  currentYear: null,
 });
 
 @Injectable({
@@ -74,7 +88,7 @@ export class ApiService {
     readonly moviesError = computed(() => this._moviesState().error);
 
     // ========== ACHIEVEMENTS ==========
-    private readonly _achievementsState = signal(createAsyncState<GameAchievement[]>([]));
+    private readonly _achievementsState = signal(createAsyncState<GameAchievement[] | null>(null));
     private readonly _achievementsGameId = signal<number | null>(null);
     private readonly _achievementsNextUrl = signal<string | null>(null);
     private readonly _achievementsPreviousUrl = signal<string | null>(null);
@@ -105,10 +119,12 @@ export class ApiService {
     readonly developersError = computed(() => this._developersState().error);
 
     // ========== NEW RELEASES ==========
-    private readonly _newReleasesState = signal(createAsyncState<Game[] | null>(null));
+    private readonly _newReleasesState = signal<NewReleasesState>(createNewReleasesState());
     readonly newReleases = computed(() => this._newReleasesState().data);
     readonly newReleasesLoading = computed(() => this._newReleasesState().loading);
     readonly newReleasesError = computed(() => this._newReleasesState().error);
+    // readonly newReleasesCurrentMonth = computed(() => this._newReleasesState().currentMonth);
+    // readonly newReleasesCurrentYear = computed(() => this._newReleasesState().currentYear);
 
     // ========== TOP GAMES ==========
     private readonly _topGamesState = signal(createAsyncState<Game[] | null>(null));
@@ -206,12 +222,12 @@ export class ApiService {
     }
 
     getGameAchievements(gameId: number, forceRefresh: boolean = false): void {
-        if (this._achievementsGameId() === gameId && this._achievementsState().data.length > 0 && !forceRefresh) {
+        if (this._achievementsGameId() === gameId && this._achievementsState().data !== null && !forceRefresh) {
             return;
         }
 
         this._achievementsGameId.set(gameId);
-        this._achievementsState.set({ data: [], loading: true, error: false });
+        this._achievementsState.set({ data: null, loading: true, error: false });
 
         const params = new HttpParams()
             .set("key", this.apiKey)
@@ -327,40 +343,59 @@ export class ApiService {
         });
     }
 
-    getNewReleases(page: number = 1, forceRefresh: boolean = false): void {
-        if (page === 1 && this._newReleasesState().data !== null && !forceRefresh) {
-            return;
-        }
+    getNewReleases(year: number, month: number, page: number = 1, forceRefresh: boolean = false): void {
+      const state = this._newReleasesState();
 
-        this._newReleasesState.update(s => ({ ...s, loading: true, error: false }));
+      // Skip se abbiamo già i dati per questo mese
+      if (page === 1 && !forceRefresh && state.data !== null && state.currentMonth === month && state.currentYear === year) {
+        return;
+      }
 
-        const currentDate = new Date();
-        const monthAgo = new Date(
-            currentDate.getFullYear(),
-            currentDate.getMonth() - 1,
-            currentDate.getDate()
-        );
+      this._newReleasesState.update(s => ({ ...s, loading: true, error: false }));
 
-        const params = new HttpParams()
-            .set("key", this.apiKey)
-            .set("dates", `${monthAgo.toISOString().split("T")[0]},${currentDate.toISOString().split("T")[0]}`)
-            .set("ordering", "-released")
-            .set("page", page.toString())
-            .set("page_size", "40");
+      // Range visibile della griglia calendario (42 celle = 6 settimane)
+      const firstOfMonth = new Date(year, month, 1);
+      const startPadding = firstOfMonth.getDay();
+      const startDate = new Date(year, month, 1 - startPadding);
+      const endDate = new Date(year, month, 42 - startPadding);
 
-        this.http.get<GameResponse>(`${this.baseUrl}/games`, { params }).subscribe({
-            next: (res) => {
-                const results = res.results ?? [];
-                this._newReleasesState.update(s => ({
-                    data: page === 1 ? results : [...(s.data || []), ...results],
-                    loading: false,
-                    error: false,
-                }));
-            },
-            error: () => {
-                this._newReleasesState.set({ data: [], loading: false, error: true });
-            },
-        });
+      const params = new HttpParams()
+        .set("key", this.apiKey)
+        .set("dates", `${this.formatDate(startDate)},${this.formatDate(endDate)}`)
+        .set("ordering", "released")
+        .set("page", page.toString())
+        .set("page_size", "40");
+
+      this.http.get<GameResponse>(`${this.baseUrl}/games`, { params }).subscribe({
+        next: (res) => {
+          const results = res.results ?? [];
+          this._newReleasesState.update(s => ({
+            data: (page === 1 || s.currentMonth !== month || s.currentYear !== year)
+              ? results
+              : [...(s.data || []), ...results],
+            loading: false,
+            error: false,
+            currentMonth: month,
+            currentYear: year
+          }));
+        },
+        error: () => {
+          this._newReleasesState.set({
+            data: [],
+            loading: false,
+            error: true,
+            currentMonth: month,
+            currentYear: year
+          });
+        },
+      });
+    }
+
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     }
 
     getTopGames(page: number = 1, forceRefresh: boolean = false): void {
