@@ -1,9 +1,7 @@
-import { CommonModule } from "@angular/common";
 import {
     Component,
     input,
     inject,
-    computed,
     signal,
     OnInit,
 } from "@angular/core";
@@ -13,16 +11,18 @@ import { LoadingComponent } from "./loading.component";
 
 @Component({
     selector: "app-game-screenshots",
-    imports: [CommonModule, LoadingComponent],
+    imports: [LoadingComponent],
     template: `
-        @if (gameDetail(); as game) { @if (game.screenshots_count > 0) {
+        @if (screenshotsLoading()) {
+          <div class="flex justify-center p-8">
+            <app-loading />
+          </div>
+        } @else if (screenshots()?.length) {
           <div>
-            <!-- Screenshots Grid -->
-            @if (screenshots(); as screenList) {
             <div
                 class="rounded-lg grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-3"
             >
-                @for (screenshot of screenList; track screenshot.id) {
+                @for (screenshot of screenshots(); track screenshot.id) {
                 <div class="shadow-xl">
                     <figure>
                         <img
@@ -36,29 +36,20 @@ import { LoadingComponent } from "./loading.component";
                 </div>
                 }
             </div>
-            }
-
-            <!-- Error State -->
-            @if (screenshotsError()) {
-            <div class="alert alert-error flex-center-center">
-              <div>
-                <p class="text-lg text-white">
-                    Errore nel caricamento degli screenshot
-                </p>
-              </div>
-              <button class="btn btn-sm" (click)="loadScreenshots()">
-                  Riprova
-              </button>
-            </div>
-            }
           </div>
-        } }
+        }
 
-        <!-- Loading State -->
-        @if (gameDetailLoading()) {
-        <div class="flex justify-center p-8">
-            <app-loading />
-        </div>
+        @if (screenshotsError()) {
+          <div class="alert alert-error flex-center-center">
+            <div>
+              <p class="text-lg text-white">
+                  Errore nel caricamento degli screenshot
+              </p>
+            </div>
+            <button class="btn btn-sm" (click)="loadScreenshots()">
+                Riprova
+            </button>
+          </div>
         }
 
         <!-- Modal per screenshot fullscreen -->
@@ -87,20 +78,15 @@ import { LoadingComponent } from "./loading.component";
     `,
 })
 export class GameScreenshotsComponent implements OnInit {
-    private apiService = inject(ApiService);
+    private readonly apiService = inject(ApiService);
 
     gameId = input.required<number>();
 
-    // Signals dal service
-    gameDetail = this.apiService.gameDetail;
-    gameDetailLoading = this.apiService.gameDetailLoading;
     screenshots = this.apiService.screenshots;
     screenshotsLoading = this.apiService.screenshotsLoading;
     screenshotsError = this.apiService.screenshotsError;
 
     selectedScreenshot = signal<Screenshot | null>(null);
-
-    screenshotsLoaded = computed(() => this.screenshots() !== null);
 
     ngOnInit(): void {
         this.loadScreenshots();
