@@ -24,6 +24,8 @@ export interface GameDetail extends Game {
   website?: string;
   added_by_status?: AddedByStatus[];
   achievements_count?: number;
+  movies_count?: number;
+  screenshots_count?: number;
   reddit_url?: string;
   reddit_count?: number;
   twitch_count?: number;
