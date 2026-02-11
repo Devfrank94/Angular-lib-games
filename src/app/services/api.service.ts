@@ -76,9 +76,11 @@ export class ApiService {
     // ========== SCREENSHOTS ==========
     private readonly _screenshotsState = signal(createAsyncState<Screenshot[] | null>(null));
     private readonly _screenshotsGameId = signal<number | null>(null);
+    private readonly _screenshotsResponse = signal<ScreenshotResponse | null>(null);
     readonly screenshots = computed(() => this._screenshotsState().data);
     readonly screenshotsLoading = computed(() => this._screenshotsState().loading);
     readonly screenshotsError = computed(() => this._screenshotsState().error);
+    readonly screenshotsResponse = computed(() => this._screenshotsResponse());
 
     // ========== MOVIES ==========
     private readonly _moviesState = signal(createAsyncState<GameMovie[] | null>(null));
@@ -93,6 +95,7 @@ export class ApiService {
     private readonly _achievementsNextUrl = signal<string | null>(null);
     private readonly _achievementsPreviousUrl = signal<string | null>(null);
     private readonly _achievementsResponse = signal<AchievementsResponse | null>(null);
+    private readonly _achievementsPageCache = new Map<string, AchievementsResponse>();
     readonly gameAchievements = computed(() => this._achievementsState().data);
     readonly gameAchievementsLoading = computed(() => this._achievementsState().loading);
     readonly gameAchievementsError = computed(() => this._achievementsState().error);
@@ -193,9 +196,11 @@ export class ApiService {
 
         this.http.get<ScreenshotResponse>(`${this.baseUrl}/games/${gameId}/screenshots`, { params }).subscribe({
             next: (res) => {
+                this._screenshotsResponse.set(res);
                 this._screenshotsState.set({ data: res.results ?? [], loading: false, error: false });
             },
             error: () => {
+                this._screenshotsResponse.set(null);
                 this._screenshotsState.set({ data: [], loading: false, error: true });
             },
         });
@@ -226,19 +231,19 @@ export class ApiService {
             return;
         }
 
+        if (this._achievementsGameId() !== gameId) {
+            this._achievementsPageCache.clear();
+        }
+
         this._achievementsGameId.set(gameId);
         this._achievementsState.set({ data: null, loading: true, error: false });
 
-        const params = new HttpParams()
-            .set("key", this.apiKey)
-            .set("page_size", "20");
+        const url = `${this.baseUrl}/games/${gameId}/achievements?key=${this.apiKey}&page_size=20`;
 
-        this.http.get<AchievementsResponse>(`${this.baseUrl}/games/${gameId}/achievements`, { params }).subscribe({
+        this.http.get<AchievementsResponse>(url).subscribe({
             next: (res) => {
-                this._achievementsResponse.set(res);
-                this._achievementsState.set({ data: res.results, loading: false, error: false });
-                this._achievementsNextUrl.set(res.next);
-                this._achievementsPreviousUrl.set(res.previous);
+                this._achievementsPageCache.set(url, res);
+                this._setAchievementsFromResponse(res);
             },
             error: () => {
                 this._achievementsResponse.set(null);
@@ -250,19 +255,30 @@ export class ApiService {
     fetchAchievementsPage(url: string | null): void {
         if (!url) return;
 
+        const cached = this._achievementsPageCache.get(url);
+        if (cached) {
+            this._setAchievementsFromResponse(cached);
+            return;
+        }
+
         this._achievementsState.update(s => ({ ...s, loading: true }));
 
         this.http.get<AchievementsResponse>(url).subscribe({
             next: (res) => {
-                this._achievementsResponse.set(res);
-                this._achievementsState.set({ data: res.results, loading: false, error: false });
-                this._achievementsNextUrl.set(res.next);
-                this._achievementsPreviousUrl.set(res.previous);
+                this._achievementsPageCache.set(url, res);
+                this._setAchievementsFromResponse(res);
             },
             error: () => {
                 this._achievementsState.update(s => ({ ...s, loading: false }));
             },
         });
+    }
+
+    private _setAchievementsFromResponse(res: AchievementsResponse): void {
+        this._achievementsResponse.set(res);
+        this._achievementsState.set({ data: res.results, loading: false, error: false });
+        this._achievementsNextUrl.set(res.next);
+        this._achievementsPreviousUrl.set(res.previous);
     }
 
     getPlatforms(page: number = 1, forceRefresh: boolean = false): void {
