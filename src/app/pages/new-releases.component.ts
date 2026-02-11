@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, effect } from '@angular/core';
+import { Component, inject, signal, computed, effect, untracked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ErrorgenericComponent } from '../components/error-generic.component';
@@ -211,10 +211,12 @@ export default class NewReleasesComponent {
   constructor() {
     effect(() => {
       const date = this.currentDate();
-      this.apiService.getNewReleases(
-        date.getFullYear(),
-        date.getMonth()
-      );
+      untracked(() => {
+        this.apiService.getNewReleases(
+          date.getFullYear(),
+          date.getMonth()
+        );
+      });
     });
   }
 
