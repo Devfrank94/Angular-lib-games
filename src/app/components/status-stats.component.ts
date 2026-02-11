@@ -14,7 +14,7 @@ import { Game } from '../models/game.interface';
             <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Non Acquistato</div>
                 <div class="flex">
-                <div class="text-3xl md:text-4xl font-semibold">{{ stats.yet }}</div>
+                <div class="text-3xl md:text-4xl font-semibold">{{ stats.yet ?? 0 }}</div>
                 <div class="stat-figure ms-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@ import { Game } from '../models/game.interface';
             <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Posseduto</div>
                 <div class="flex">
-                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.owned }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.owned ?? 0 }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ import { Game } from '../models/game.interface';
               <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                   <div class="text-white">Completato</div>
                   <div class="flex">
-                    <div class="text-3xl md:text-4xl font-semibold">{{ stats.beaten }}</div>
+                    <div class="text-3xl md:text-4xl font-semibold">{{ stats.beaten ?? 0 }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ import { Game } from '../models/game.interface';
             <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Da Giocare</div>
                 <div class="flex">
-                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.toplay }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.toplay ?? 0 }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +107,7 @@ import { Game } from '../models/game.interface';
             <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">In Corso</div>
                 <div class="flex">
-                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.playing }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.playing ?? 0 }}</div>
                   <div class="stat-figure ms-2">
                       <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +130,7 @@ import { Game } from '../models/game.interface';
             <div class="flex-1 flex-col flex items-center py-2 px-3 min-[389px]:px-2">
                 <div class="text-white">Abbandonato</div>
                 <div class="flex">
-                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.dropped }}</div>
+                  <div class="text-3xl md:text-4xl font-semibold">{{ stats.dropped ?? 0 }}</div>
                 <div class="stat-figure ms-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
