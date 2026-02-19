@@ -197,7 +197,6 @@ interface CalendarDay {
         </form>
       </dialog>
     </div>
-        <!-- <pre><code class="text-black">{{ this.apiService.newReleases() | json }}</code></pre> -->
     }
   `,
   styles: ``
