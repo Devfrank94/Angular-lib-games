@@ -26,95 +26,95 @@ interface CalendarDay {
     } @else if (newReleasesError()) {
       <app-error-generic/>
     } @else {
-      <div class="bg-base-300 rounded-lg shadow-lg p-1 sm:p-4 py-5 md:py-9">
-      <!-- Navigazione Mese -->
-      <nav class="flex justify-between items-center max-w-4xl mx-auto mb-6 p-4 bg-base-100 rounded-box shadow">
-        <button class="btn btn-ghost btn-md gap-2" (click)="previousMonth()">
-          <span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-          </span>
-          <span class="hidden sm:inline">Prev</span>
-        </button>
-        <div class="text-center">
-          <span class="text-lg md:text-2xl font-bold">{{ currentMonthName() }}</span>
-          <span class="text-primary ms-2">{{ currentYear() }}</span>
-        </div>
-        <button class="btn btn-ghost btn-md gap-2" (click)="nextMonth()">
-          <span class="hidden sm:inline">Next</span>
-          <span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-            </svg>
-          </span>
-        </button>
-      </nav>
+      <div class="bg-base-300 rounded-lg shadow-lg px-2 sm:p-4 py-5 md:py-9">
+        <!-- Navigazione Mese -->
+        <nav class="flex justify-between items-center max-w-4xl mx-auto mb-6 p-4 bg-base-100 rounded-box shadow">
+          <button class="btn btn-ghost btn-md gap-2" (click)="previousMonth()">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </span>
+            <span class="hidden sm:inline">Prev</span>
+          </button>
+          <div class="text-center">
+            <span class="text-lg md:text-2xl font-bold">{{ currentMonthName() }}</span>
+            <span class="text-primary ms-2">{{ currentYear() }}</span>
+          </div>
+          <button class="btn btn-ghost btn-md gap-2" (click)="nextMonth()">
+            <span class="hidden sm:inline">Next</span>
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            </span>
+          </button>
+        </nav>
 
-            <!-- Legenda -->
-      <div class="flex justify-center gap-6 mb-6 text-sm text-base-content/60">
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 rounded bg-primary/20 border border-primary"></div>
-          <span>Data di rilascio</span>
+              <!-- Legenda -->
+        <div class="flex justify-center gap-6 mb-6 text-sm text-base-content/60">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-primary/20 border border-primary"></div>
+            <span>Data di rilascio</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 rounded bg-secondary/20 border border-secondary"></div>
+            <span>Oggi</span>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <div class="w-4 h-4 rounded bg-secondary/20 border border-secondary"></div>
-          <span>Oggi</span>
-        </div>
-      </div>
 
-      <!-- Calendario -->
-      <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-7 gap-1 md:gap-2">
-          <!-- Weekday Headers -->
-          @for (day of weekdays; track day) {
-            <div class="text-center py-2 md:py-3 text-xs md:text-sm font-semibold text-primary bg-base-100 rounded">
-              {{ day }}
-            </div>
-          }
-          <!-- Calendar Days -->
-          @for (day of calendarDays(); track day.date.toISOString()) {
-            <div
-              class="aspect-square p-1 md:p-2 rounded-lg border transition-all duration-200"
-              [class]="getDayClasses(day)"
-              (click)="day.releases.length > 0 && openDayModal(day)"
-            >
-              <!-- Day Number -->
-              <span
-                class="text-sm md:text-lg font-bold"
-                [class.text-base-info]="!day.isCurrentMonth"
-                [class.text-secondary]="day.isToday"
-                [class.text-primary]="day.releases.length > 0 && day.isCurrentMonth"
+        <!-- Calendario -->
+        <div class="max-w-6xl mx-auto">
+          <div class="grid grid-cols-7 gap-1 md:gap-2">
+            <!-- Weekday Headers -->
+            @for (day of weekdays; track day) {
+              <div class="text-center py-2 md:py-3 text-xs md:text-sm font-semibold text-primary bg-base-100 rounded">
+                {{ day }}
+              </div>
+            }
+            <!-- Calendar Days -->
+            @for (day of calendarDays(); track day.date.toISOString()) {
+              <div
+                class="aspect-square p-1 md:p-2 rounded-lg border transition-all duration-200"
+                [class]="getDayClasses(day)"
+                (click)="day.releases.length > 0 && openDayModal(day)"
               >
-                {{ day.dayNumber }}
-              </span>
+                <!-- Day Number -->
+                <span
+                  class="text-sm md:text-lg font-bold"
+                  [class.text-base-info]="!day.isCurrentMonth"
+                  [class.text-secondary]="day.isToday"
+                  [class.text-primary]="day.releases.length > 0 && day.isCurrentMonth"
+                >
+                  {{ day.dayNumber }}
+                </span>
 
-              <!-- Release Indicators -->
-              @if (day.releases.length > 0) {
-                <div class="my-1 flex flex-wrap gap-1">
-                  @for (release of day.releases.slice(0, 3); track release.id) {
-                    <div
-                      class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full border border-base-300 tooltip overflow-hidden"
-                      [attr.data-tip]="release.name"
-                    >
-                      <img
-                        [src]="release.background_image"
-                        (error)="handleImageError($event)"
-                        class="w-full h-full object-cover"
-                      />
-                    </div>
-                  }
-                  @if (day.releases.length > 3) {
-                    <div class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full bg-base-300 flex items-center justify-center text-xs font-bold">
-                      +{{ day.releases.length - 3 }}
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          }
+                <!-- Release Indicators -->
+                @if (day.releases.length > 0) {
+                  <div class="my-1 flex flex-wrap gap-1">
+                    @for (release of day.releases.slice(0, 3); track release.id) {
+                      <div
+                        class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full border border-base-300 tooltip overflow-hidden"
+                        [attr.data-tip]="release.name"
+                      >
+                        <img
+                          [src]="release.background_image"
+                          (error)="handleImageError($event)"
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                    }
+                    @if (day.releases.length > 3) {
+                      <div class="w-6 h-6 md:w-12 md:h-12 avatar rounded-full bg-base-300 flex items-center justify-center text-xs font-bold">
+                        +{{ day.releases.length - 3 }}
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
         </div>
-      </div>
 
       <!-- Day Modal (lista release del giorno) -->
       <dialog class="modal" [class.modal-open]="selectedDay() !== null">
