@@ -422,11 +422,12 @@ export class ApiService {
         this._topGamesState.update(s => ({ ...s, loading: true, error: false }));
 
         const params = new HttpParams()
-            .set("key", this.apiKey)
-            .set("ordering", "-rating")
-            .set("metacritic", "80,100")
-            .set("page", page.toString())
-            .set("page_size", "40");
+          .set("key", this.apiKey)
+          .set("ordering", "-metacritic")
+          .set("metacritic", "90,100")
+          .set("page", page.toString())
+          .set("exclude_additions", "true")
+          .set("page_size", "40");
 
         this.http.get<GameResponse>(`${this.baseUrl}/games`, { params }).subscribe({
             next: (res) => {
