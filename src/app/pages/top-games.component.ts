@@ -25,7 +25,7 @@ import { RatingStarComponent } from '../components/rating-star.component';
     } @else {
       <div class="glass p-2 rounded-xl shadow-xl">
         <div
-          class="overflow-x-auto rounded-box border border-base-content/5 bg-base-200"
+          class="overflow-x-auto rounded-box border border-base-content/5 bg-base-300"
         >
           <table class="table table-zebra">
             <thead>
@@ -35,14 +35,14 @@ import { RatingStarComponent } from '../components/rating-star.component';
                 <th class="hidden sm:table-cell">Metacritic</th>
                 <th class="hidden lg:table-cell">Rating</th>
                 <th class="hidden lg:table-cell">Distribuzione</th>
-                <th class="hidden md:table-cell">Piattaforme</th>
+                <th class="hidden md:table-cell text-center">Piattaforme</th>
                 <th></th>
               </tr>
             </thead>
 
             @for (game of topGames() ?? []; track game.id; let i = $index) {
               @if (game.rating > 0) {
-                <tbody class="hover:bg-base-300">
+                <tbody class="hover:bg-base-100">
                   <tr>
                     <!-- Rank -->
                     <th
@@ -142,17 +142,20 @@ import { RatingStarComponent } from '../components/rating-star.component';
                     <!-- Piattaforme -->
                     <td class="hidden md:table-cell">
                       <div class="flex-center-center flex-wrap gap-1.5">
-                        @for (p of game.platforms?.slice(0, 5);
-                          track p.platform.id) {
+                        @for (
+                          p of game.platforms?.slice(0, 5);
+                          track p.platform.id
+                        ) {
                           @if (platformIcon(p.platform.name); as icon) {
                             <a
-                              class="tooltip tooltip-hover tooltip-bottom"
-                              [attr.data-tip]="p.platform.name">
+                              class="tooltip tooltip-hover tooltip-bottom w-fit bg-accent py-1 px-2 rounded-full"
+                              [attr.data-tip]="p.platform.name"
+                            >
                               <img
-                              [src]="icon"
-                              [alt]="p.platform.name"
-                              class="w-4 h-4 invert opacity-60"
-                              loading="lazy"
+                                [src]="icon"
+                                [alt]="p.platform.name"
+                                class="w-4 h-4 invert"
+                                loading="lazy"
                               />
                             </a>
                           }
