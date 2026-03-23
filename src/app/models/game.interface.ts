@@ -1,3 +1,10 @@
+export interface Rating {
+  id: number;
+  title: 'exceptional' | 'recommended' | 'meh' | 'skip';
+  count: number;
+  percent: number;
+}
+
 export interface Game {
   id: number;
   slug: string;
@@ -7,6 +14,7 @@ export interface Game {
   rating: number;
   rating_top: number;
   ratings_count: number;
+  ratings?: Rating[];
   saturated_color: string;
   dominant_color: string;
   metacritic: number;

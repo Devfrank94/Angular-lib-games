@@ -20,15 +20,6 @@ import { Title } from '@angular/platform-browser';
         <app-error-generic />
       } @else if (apiService.gameDetail()) {
           <div class="p-2">
-            <button
-              class="btn btn-accent text-white text-md btn-md sm:btn-lg mb-3" (click)="goBack()">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-              </svg>
-              Indietro
-            </button>
-
             @if (apiService.gameDetail(); as game) {
               <div class="mx-auto">
                   <app-card-detail [game]="game" />
@@ -62,7 +53,6 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
     const gameId = this.route.snapshot.params['id'];
     const slug = this.route.snapshot.params['slug'];
@@ -78,9 +68,5 @@ export class GameDetailComponent implements OnInit {
         }
       }, 500);
     }
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }

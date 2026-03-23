@@ -12,8 +12,8 @@ import { globalSearchQuery } from '../signals/search.signal';
   imports: [CommonModule, CardComponent, ErrorgenericComponent, SkeletonComponent],
   template: `
   <div class="mx-auto sm:px-2">
-    <div class="flex justify-center mt-2 mb-6">
-      <div role="tablist" class="font-bold tabs tabs-border bg-base-300 rounded-md shadow-md gap-3 tabs-md sm:tabs-xl">
+    <div class="flex justify-center mt-2 mb-4">
+      <div role="tablist" class="font-bold tabs tabs-border bg-base-300 rounded-md shadow-md gap-3 tabs-md sm:tabs-lg">
         <button
           role="tab"
           class="tab"

@@ -21,7 +21,7 @@ import { ToolbarComponent } from "./components/toolbar.component";
         <app-topbar />
         <div class="flex-center-center py-3 sm:py-1">
           <div class="my-container my-box p-3 sm:m-4 sm:p-4">
-            <div class="flex gap-4 py-4 px-1 sm:px-4">
+            <div class="flex gap-4 py-4 px-1">
               @switch (navbarState()) {
                 @case ('show') {
                   <div class="hidden sm:block min-w-fit">
@@ -33,7 +33,7 @@ import { ToolbarComponent } from "./components/toolbar.component";
               }
               <div class="w-full flex flex-col gap-4">
                 <app-toolbar />
-                <div class="py-3 sm:py-0 sm:px-1 w-full height-responsive overflow-y-auto rounded-xl">
+                <div class="py-3 sm:py-0 height-responsive overflow-y-auto rounded-xl">
                   <router-outlet />
                 </div>
 
